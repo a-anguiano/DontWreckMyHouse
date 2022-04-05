@@ -13,9 +13,7 @@ namespace DontWreckMyHouse.Core
         public string State { get; set; }
         public int Zip { get; set; }
         public decimal StandardRate { get; set; }
-        public decimal WeekendRate { get; set; }
-        
-        
+        public decimal WeekendRate { get; set; }                
 
         public Host() { }
 
