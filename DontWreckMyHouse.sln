@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DontWreckMyHouse.UI", "DontWreckMyHouse.UI\DontWreckMyHouse.UI.csproj", "{8C07F388-2575-496C-9F84-9CB0483420FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "BLLTests\UnitTests.csproj", "{B45F9F8B-0A29-484F-A8DE-9FAF66153494}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DontWreckMyHouse.DAL.Tests", "BLLTests\DontWreckMyHouse.DAL.Tests.csproj", "{B45F9F8B-0A29-484F-A8DE-9FAF66153494}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DontWreckMyHouse.Core", "DontWreckMyHouse.Core\DontWreckMyHouse.Core.csproj", "{1BA7873B-9221-44EF-9B68-7E5A1E3D6122}"
 EndProject

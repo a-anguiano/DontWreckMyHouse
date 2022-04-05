@@ -13,7 +13,7 @@ namespace DontWreckMyHouse.Core.Interfaces
         //Find All & Find A Specific One
             //Two types of findbys perhaps
 
-        List<Reservation> FindByHost(Host host);
+        List<Reservation> FindByHostID(string hostId);      //hmmm
 
         Reservation Create(Reservation reservation);
 

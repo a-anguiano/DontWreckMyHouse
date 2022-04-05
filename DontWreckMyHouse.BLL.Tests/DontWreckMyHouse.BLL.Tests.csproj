@@ -14,4 +14,9 @@
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DontWreckMyHouse.BLL\DontWreckMyHouse.BLL.csproj" />
+    <ProjectReference Include="..\DontWreckMyHouse.Core\DontWreckMyHouse.Core.csproj" />
+  </ItemGroup>
+
 </Project>

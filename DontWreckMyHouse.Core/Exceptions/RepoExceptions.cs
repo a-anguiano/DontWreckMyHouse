@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace DontWreckMyHouse.Core.Exceptions
 {
-    internal class RepoExceptions
+    public class RepoExceptions : Exception
     {
+        public RepoExceptions(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }

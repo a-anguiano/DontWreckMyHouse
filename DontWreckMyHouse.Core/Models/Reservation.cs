@@ -8,11 +8,11 @@ namespace DontWreckMyHouse.Core.Models
 {
     public class Reservation
     {
-        public string Id { get; set; }  //simple sequential, but filename for res is GUID
+        public int Id { get; set; }  //simple sequential, but filename for res is GUID
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-        public Host Host { get; set; }
+        public Host Host { get; set; }      //hmmm
         public Guest Guest { get; set; }
         public decimal TotalCost { get; set; }
 

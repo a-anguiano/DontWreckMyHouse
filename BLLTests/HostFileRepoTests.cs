@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DontWreckMyHouse.DAL.Tests
 {
-    internal class HostFileRepoTests
+    public class HostFileRepoTests  //public?
     {
+        
     }
 }
