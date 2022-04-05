@@ -22,7 +22,6 @@ namespace DontWreckMyHouse.Core.Models
             Id = id;
             FirstName = firstName;
             LastName = lastName;
-            //string FirstLastName = firstName + lastName;
             Email = email;
             Phone = phone;
             State = state;

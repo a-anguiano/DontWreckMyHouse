@@ -15,12 +15,11 @@ namespace DontWreckMyHouse.Core.Models
         public Host Host { get; set; }
         public Guest Guest { get; set; }     
 
-        //Should I only have property for date
         //send in date for each day reserved
         //figure out cost of a single day?
         //is the issue current the loop within a model for some reason?
 
-    public decimal TotalCost         //cost of ONE day or cost of TOTAL
+    public decimal TotalCost         //cost of ONE day or cost of TOTAL     //readonly?
         {
             get
             {

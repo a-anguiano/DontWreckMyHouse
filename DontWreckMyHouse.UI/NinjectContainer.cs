@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using DontWreckMyHouse.BLL;
+using DontWreckMyHouse.DAL;
+using DontWreckMyHouse.Core.Interfaces;
 using Ninject;
 
 namespace DontWreckMyHouse.UI
@@ -15,21 +19,21 @@ namespace DontWreckMyHouse.UI
         {
             Kernel = new StandardKernel();
 
-            //Kernel.Bind<ConsoleIO>().To<ConsoleIO>();
-            //Kernel.Bind<View>().To<View>();
+            Kernel.Bind<ConsoleIO>().To<ConsoleIO>();
+            Kernel.Bind<View>().To<View>();
 
-            //string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-            //string forageFileDirectory = Path.Combine(projectDirectory, "data", "forage_data");
-            //string foragerFilePath = Path.Combine(projectDirectory, "data", "foragers.csv");
-            //string itemFilePath = Path.Combine(projectDirectory, "data", "items.txt");
+            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            string reservationFileDirectory = Path.Combine(projectDirectory, "Data", "reservations");
+            string guestFilePath = Path.Combine(projectDirectory, "Data", "guests.csv");
+            string hostFilePath = Path.Combine(projectDirectory, "Data", "hosts.csv");
 
-            //Kernel.Bind<IForageRepository>().To<ForageFileRepository>().WithConstructorArgument(forageFileDirectory);
-            //Kernel.Bind<IForagerRepository>().To<ForagerFileRepository>().WithConstructorArgument(foragerFilePath);
-            //Kernel.Bind<IItemRepository>().To<ItemFileRepository>().WithConstructorArgument(itemFilePath);
+            Kernel.Bind<IReservationRepo>().To<ReservationFileRepo>().WithConstructorArgument(reservationFileDirectory);
+            Kernel.Bind<IHostRepo>().To<HostFileRepo>().WithConstructorArgument(hostFilePath);
+            Kernel.Bind<IGuestRepo>().To<GuestFileRepo>().WithConstructorArgument(guestFilePath);
 
-            //Kernel.Bind<ForagerService>().To<ForagerService>();
-            //Kernel.Bind<ForageService>().To<ForageService>();
-            //Kernel.Bind<ItemService>().To<ItemService>();
+            Kernel.Bind<ReservationService>().To<ReservationService>();
+            Kernel.Bind<GuestService>().To<GuestService>();
+            Kernel.Bind<HostService>().To<HostService>();
         }
     }
 }

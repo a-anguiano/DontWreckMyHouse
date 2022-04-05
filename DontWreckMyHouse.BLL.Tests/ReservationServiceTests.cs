@@ -1,8 +1,8 @@
 using NUnit.Framework;
 
-namespace BLLTests
+namespace DontWreckMyHouse.BLL.Tests
 {
-    public class Tests
+    public class ReservationServiceTests
     {
         [SetUp]
         public void Setup()
