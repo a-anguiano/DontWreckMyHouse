@@ -26,10 +26,7 @@ namespace DontWreckMyHouse.UI
             for (int i = 0; i < options.Length; i++)
             {
                 MainMenuOption option = options[i];
-                //if (!option.IsHidden())
-                //{
                     io.PrintLine($"{i}. {option.ToLabel()}");
-                //}
                 min = Math.Min(min, i);
                 max = Math.Max(max, i);
             }
@@ -42,7 +39,6 @@ namespace DontWreckMyHouse.UI
         {
             return io.ReadRequiredString("Enter state initials: "); //special consoleIO?
         }
-        //Get something to identify or narrow down list of ___
 
         //Choose ___ if a list, only show a certain number before ask to refine search
         public Host ChooseHost(List<Host> hosts)
@@ -75,20 +71,17 @@ namespace DontWreckMyHouse.UI
             return hosts[index - 1];
         }
 
-        public Reservation MakeReservation()      //or Create
+        public Reservation MakeReservation(Host host, Guest guest)      //or Create, params?
         {
-            //Guest guest, Host host, DateTime startDate
-
             Reservation reservation = new Reservation();
 
-            //guest id
-            //host id
-
             //Show cuurent reservations at location
+            //DisplayReservations();
             reservation.StartDate = io.ReadDate("Start date [MM/dd/yyyy]: ");
             reservation.EndDate = io.ReadDate("End date [MM/dd/yyyy]: ");
 
-            //display summary
+            DisplayHeader("Summary");
+            //DisplaySummary();
             //check if ok
             //if not, do not create/make
 
@@ -139,7 +132,7 @@ namespace DontWreckMyHouse.UI
             foreach (Reservation reservation in reservations)
             {
                 io.PrintLine(
-                    string.Format("ID: {0}, {1} - {2}, Guest: {3}, {4}, {5} ",    //Value: ${4:0.00}
+                    string.Format("ID: {0}, {1} - {2}, Guest: {3}, {4}, {5} ",  
                         reservation.Id,
                         reservation.StartDate,
                         reservation.EndDate,
@@ -147,6 +140,15 @@ namespace DontWreckMyHouse.UI
                         reservation.Guest.LastName,
                         reservation.Guest.Email));
             }
+        }
+
+        public void DisplaySummary (Reservation reservation)
+        {
+                io.PrintLine(
+                    string.Format("Start: {0}\nEnd: {1}\nTotal: ${2:0.00}",
+                        reservation.StartDate,
+                        reservation.EndDate,
+                        reservation.TotalCost));
         }
     }
 }
