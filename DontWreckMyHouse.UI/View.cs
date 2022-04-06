@@ -40,6 +40,11 @@ namespace DontWreckMyHouse.UI
             return io.ReadRequiredString("Enter state initials: "); //special consoleIO?
         }
 
+        public string GetGuestPhone()
+        {
+            return io.ReadRequiredString("Enter guest phone number: "); //special consoleIO?
+        }
+
         //Choose ___ if a list, only show a certain number before ask to refine search
         public Host ChooseHost(List<Host> hosts)
         {
@@ -75,7 +80,7 @@ namespace DontWreckMyHouse.UI
         {
             Reservation reservation = new Reservation();
 
-            //Show cuurent reservations at location
+            //Show current reservations at location
             //DisplayReservations();
             reservation.StartDate = io.ReadDate("Start date [MM/dd/yyyy]: ");
             reservation.EndDate = io.ReadDate("End date [MM/dd/yyyy]: ");

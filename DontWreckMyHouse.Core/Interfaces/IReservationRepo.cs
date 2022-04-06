@@ -15,7 +15,7 @@ namespace DontWreckMyHouse.Core.Interfaces
 
         List<Reservation> FindByHostID(string hostId);      //hmmm
 
-        Reservation Create(Reservation reservation);
+        Reservation Create(Reservation reservation, string hostId);
 
         bool Edit(Reservation reservation);         //bool?
 

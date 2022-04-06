@@ -11,7 +11,7 @@ namespace DontWreckMyHouse.BLL
         }
 
 
-        public Reservation Create(Reservation reservation)
+        public Result<Reservation> Create(Reservation reservation)
         {
             throw new NotImplementedException();
         }

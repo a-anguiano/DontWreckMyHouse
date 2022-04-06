@@ -48,14 +48,10 @@ namespace DontWreckMyHouse.UI
                 switch (option)
                 {
                     case MainMenuOption.ViewReservationsForAHost:
-                        //view.DisplayStatus(false, "NOT IMPLEMENTED");
-                        //view.EnterToContinue();
                         ViewByHost();
                         break;
                     case MainMenuOption.MakeAReservation:
-                        view.DisplayStatus(false, "NOT IMPLEMENTED");
-                        view.EnterToContinue();
-                        //MakeAReservation();
+                        MakeAReservation();
                         break;
                     case MainMenuOption.EditAReservation:
                         view.DisplayStatus(false, "NOT IMPLEMENTED");
@@ -127,6 +123,8 @@ namespace DontWreckMyHouse.UI
         //}
         // support methods
 
+
+
         //Get Guest
 
         private Host GetHost()
@@ -134,6 +132,12 @@ namespace DontWreckMyHouse.UI
             string stateAbbr = view.GetHostState();
             List<Host> hosts = hostService.FindByState(stateAbbr);
             return view.ChooseHost(hosts);
+        }
+
+        private Guest GetGuest()
+        {
+            string phoneNum = view.GetGuestPhone();
+            return guestService.FindByPhone(phoneNum);
         }
     }
 

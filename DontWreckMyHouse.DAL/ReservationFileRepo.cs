@@ -10,24 +10,21 @@ namespace DontWreckMyHouse.DAL
     {
         private const string HEADER = "id,start_date,end_date,guest_id,total";
         private readonly string directory;
-        private readonly List<Reservation> _reservations;
 
-        public ReservationFileRepo(string directory)    //hmmmmmmmmmm
+        public ReservationFileRepo(string directory)  
         {
             this.directory = directory;
-
-            _reservations = new List<Reservation>();
         }
 
         public List<Reservation> FindByHostID(string hostId)      //and Id?
         {
-            //var reservations = new List<Reservation>();
+            var reservations = new List<Reservation>();
             var path = GetFilePath(hostId);
 
-            if(!File.Exists(path))
-            {
-                return _reservations;           //return type....
-            }
+            //if (!File.Exists(path))
+            //{
+            //    return _reservations;           //return type....
+            //}
 
             string[] lines = null;
             try
@@ -45,22 +42,22 @@ namespace DontWreckMyHouse.DAL
                 Reservation reservation = Deserialize(fields, hostId);
                 if (reservation != null)
                 {
-                    _reservations.Add(reservation);
+                    reservations.Add(reservation);
                 }
             }
-            return _reservations;
+            return reservations;
         }
     
 
-        public Reservation Create(Reservation reservation)
+        public Reservation Create(Reservation reservation, string hostId)      //two params?Host host
         {
-            List<Reservation> all = FindByHostID(reservation.Host.Id);
+            List<Reservation> all = FindByHostID(hostId);  //altered
 
             int nextId = (all.Count == 0 ? 0 : all.Max(i => i.Id)) + 1;
             reservation.Id = nextId;
 
             all.Add(reservation);
-            Write(all, reservation.Host.Id);
+            Write(all, hostId);
             return reservation;
         }
 
@@ -110,7 +107,13 @@ namespace DontWreckMyHouse.DAL
             result.Id = int.Parse(fields[0]);          //hmmm
             result.StartDate = DateTime.Parse(fields[1]);
             result.EndDate = DateTime.Parse(fields[2]);
-            result.Guest.Id = fields[3];
+
+            //Host host = new Host();
+            //host.Id = fields[3];
+            //result.Host = host;
+            Guest guest = new Guest();
+            guest.Id = fields[3];
+            result.Guest = guest;                      //
             result.TotalCost = decimal.Parse(fields[4]);
             return result;
         }

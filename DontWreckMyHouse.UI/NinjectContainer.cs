@@ -28,6 +28,7 @@ namespace DontWreckMyHouse.UI
             string hostFilePath = Path.Combine(projectDirectory, "Data", "hosts.csv");
 
             Kernel.Bind<IReservationRepo>().To<ReservationFileRepo>().WithConstructorArgument(reservationFileDirectory);
+            //Kernel.Bind<IReservationRepo>().To<ReservationFileRepoTests>
             Kernel.Bind<IHostRepo>().To<HostFileRepo>().WithConstructorArgument(hostFilePath);
             Kernel.Bind<IGuestRepo>().To<GuestFileRepo>().WithConstructorArgument(guestFilePath);
 
