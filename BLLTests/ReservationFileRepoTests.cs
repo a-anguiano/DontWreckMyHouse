@@ -10,15 +10,11 @@ using DontWreckMyHouse.Core;
 
 namespace DontWreckMyHouse.DAL.Tests
 {
+    [TestFixture]
     public class ReservationFileRepoTests
     {
         //C:\Users\19722\Code\MasteryAssessment\DontWreckMyHouse\DontWreckMyHouse.UI
-        const string SEED_FILE_PATH = @"Data\reservation-seed.csv";
-        const string TEST_FILE_PATH = @"Data\reservations\3f413626-e129-4d06-b68c-36450822213f.csv";        
-        const string TEST_DIR_PATH = @"Data\reservations";
         const int RESERVATION_COUNT = 13;
-
-        ReservationFileRepo repo = new ReservationFileRepo(TEST_DIR_PATH);
 
         //Host host = new Host();     //hmmmmmmmm
         string hostID = "3f413626-e129-4d06-b68c-36450822213f";
@@ -26,13 +22,31 @@ namespace DontWreckMyHouse.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            File.Copy(SEED_FILE_PATH, TEST_FILE_PATH, true);
+            //if (File.Exists(LogFile)) File.Delete(LogFile);
+
+            if (File.Exists(TestDataFile)) File.Delete(TestDataFile);
+
+            File.Copy(SeedFile, TestDataFile);
+
+            _repo = new ReservationFileRepo(TestDataFile);
+        }
+
+        //private const string LogFile = "../../../DAL/log.error.csv";
+        private const string SeedFile = "../../../TestData/reservation-seed.csv"; 
+        private const string TestDataFile = "../../../TestData/3f413626-e129-4d06-b68c-36450822213f.csv";
+
+        private ReservationFileRepo? _repo;
+
+        [Test]
+        public void CanCreateTestFile()
+        {
+            Assert.IsTrue(File.Exists(TestDataFile));
         }
 
         [Test]
-        public void ShouldFindByHost()      //and Id
+        public void ShouldFindByHostID()
         {
-            List<Reservation> reservations = repo.FindByHostID(hostID);     //host.Id
+            List<Reservation> reservations = _repo!.FindByHostID(hostID);   //! to get rid of green squiggle  
             Assert.AreEqual(RESERVATION_COUNT, reservations.Count);
         }
     }

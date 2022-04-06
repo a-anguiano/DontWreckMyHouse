@@ -19,4 +19,91 @@
     <ProjectReference Include="..\DontWreckMyHouse.DAL\DontWreckMyHouse.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestData\reservation-seed.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\guests.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\hosts.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\293508da-e367-437a-9178-1ebaa7d83015.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\2e72f86c-b8fe-4265-b4f1-304dea8762db.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\3edda6bc-ab95-49a8-8962-d50b53f84b15.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\3f413626-e129-4d06-b68c-36450822213f.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\45a0c5e8-6b73-46ca-8694-866b26bcafa5.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\4c7f5ee4-a822-46c4-95d4-8dba7635922c.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\4e52e660-3112-4d4f-9089-827819afa5de.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\582de161-b2eb-4ea6-8f28-b2e4be5f5ca0.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\596a1721-ce62-464b-a051-b4dfcc303cab.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\5bf404f0-0e79-4610-96dd-613fb2664b69.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\7f500db7-e687-4430-bef0-b8c74f63e616.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\86f374af-ce43-450a-8326-4b9423c9fad7.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\8863340f-7c70-4aaa-8a20-eec04aeef9f4.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\9865a3b1-7bf9-4746-9426-3d4d8b3f574c.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\9cc47e36-6623-4fd5-af83-3f7c1475d9b8.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\b1d69bea-c9be-4217-aeba-bb04e414edc3.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\b5ed3d2d-4e7b-4509-964b-18ac4cce7493.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\b6ddb844-b990-471a-8c0a-519d0777eb9b.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\c74eb1a7-1be8-422a-9f36-8de5a8b4659b.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\cc136272-2816-416f-95b8-7122c4856b12.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\cf6cd63a-028a-4620-9786-60e1d0ce23b7.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\d451eb2a-5ac4-4c9f-8e02-efaca528985d.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\d9fe6bb5-203a-4817-9de0-486e825270e8.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\dbe836ef-358b-40b0-a7bd-b40027764d7e.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\reservations\f4d6c5e4-d207-4ce0-93b3-f1d1b397883c.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
