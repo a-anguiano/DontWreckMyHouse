@@ -12,10 +12,10 @@ namespace DontWreckMyHouse.UI
         ViewReservationsForAHost,
         MakeAReservation,
         EditAReservation,
-        CancelAReservation,
+        CancelAReservation
         //Report1
         //Report2
-        Generate
+        //Generate
     }
 
     public static class MainMenuOptionExtensions
@@ -29,14 +29,14 @@ namespace DontWreckMyHouse.UI
             MainMenuOption.CancelAReservation => "Cancel A Reservation",
             //MainMenuOption.ReportKgPerItem => "Report: Kilograms of Item",
             //MainMenuOption.ReportCategoryValue => "Report: Item Category Value",
-            MainMenuOption.Generate => "Generate Random Forages",
+            //MainMenuOption.Generate => "Generate Random Forages",
             _ => throw new NotImplementedException()
         };
 
-        public static bool IsHidden(this MainMenuOption option) => option switch
-        {
-            MainMenuOption.Generate => true,
-            _ => false
-        };
+        //public static bool IsHidden(this MainMenuOption option) => option switch
+        //{
+        //    MainMenuOption.Generate => true,
+        //    _ => false
+        //};
     }
 }

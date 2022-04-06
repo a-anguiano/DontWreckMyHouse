@@ -10,6 +10,7 @@ namespace DontWreckMyHouse.BLL
             throw new NotImplementedException();
         }
 
+
         public Reservation Create(Reservation reservation)
         {
             throw new NotImplementedException();

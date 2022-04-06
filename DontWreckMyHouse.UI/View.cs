@@ -26,10 +26,10 @@ namespace DontWreckMyHouse.UI
             for (int i = 0; i < options.Length; i++)
             {
                 MainMenuOption option = options[i];
-                if (!option.IsHidden())
-                {
+                //if (!option.IsHidden())
+                //{
                     io.PrintLine($"{i}. {option.ToLabel()}");
-                }
+                //}
                 min = Math.Min(min, i);
                 max = Math.Max(max, i);
             }
@@ -38,9 +38,42 @@ namespace DontWreckMyHouse.UI
             return options[io.ReadInt(message, min, max)];
         }
 
+        public string GetHostState()
+        {
+            return io.ReadRequiredString("Enter state initials: "); //special consoleIO?
+        }
         //Get something to identify or narrow down list of ___
 
         //Choose ___ if a list, only show a certain number before ask to refine search
+        public Host ChooseHost(List<Host> hosts)
+        {
+            if (hosts == null || hosts.Count == 0)
+            {
+                io.PrintLine("No hosts found");
+                return null;
+            }
+
+            int index = 1;
+            foreach (Host host in hosts.Take(25))
+            {
+                io.PrintLine($"{index++}: City: {host.City} Standard Rate: {host.StandardRate} Weekend Rate: {host.WeekendRate}");
+            }
+            index--;
+
+            if (hosts.Count > 25)
+            {
+                io.PrintLine("More than 25 hosts found. Showing first 25. Please refine your search.");
+            }
+            io.PrintLine("0: Exit");
+            string message = $"Select a host by their index [0-{index}]: ";
+
+            index = io.ReadInt(message, 0, index);
+            if (index <= 0)
+            {
+                return null;
+            }
+            return hosts[index - 1];
+        }
 
         public Reservation MakeReservation()      //or Create
         {
