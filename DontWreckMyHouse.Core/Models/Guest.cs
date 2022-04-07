@@ -8,7 +8,7 @@ namespace DontWreckMyHouse.Core.Models
 {
     public class Guest
     {
-        public string Id { get; set; }  //simple sequential
+        public string Id { get; set; }  //simple sequential, string is ok since not adding or removing guests
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
