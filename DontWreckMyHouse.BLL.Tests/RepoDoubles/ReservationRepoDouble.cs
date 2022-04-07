@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using DontWreckMyHouse.Core.Models;
 using DontWreckMyHouse.Core.Interfaces;
+using DontWreckMyHouse.Core;
 
 namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
 {
-    public class ReservationRepoDouble //: IReservationRepo
+    public class ReservationRepoDouble : IReservationRepo
     {
         DateTime startDate = new DateTime(2020, 6, 26);
         DateTime endDate = new DateTime(2020,7, 1);
+        DateTime startDate1 = new DateTime(2021, 6, 26);
+        DateTime endDate1 = new DateTime(2021, 7, 1);
 
         private readonly List<Reservation> reservations = new List<Reservation>();
 
@@ -25,25 +28,42 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
             reservation.Host = HostRepoDouble.HOST;
             reservation.Guest = GuestRepoDouble.GUEST;
             reservations.Add(reservation);
+
+            Reservation reservation1 = new Reservation();
+            reservation1.Id = 2;
+            reservation1.StartDate = startDate1;
+            reservation1.EndDate = endDate1;
+            reservation1.TotalCost = 250M;
+            reservation1.Host = HostRepoDouble.HOST;
+            reservation1.Guest = GuestRepoDouble.GUEST;
+            reservations.Add(reservation1);
         }
 
-        //public Forage Add(Forage forage)
-        //{
-        //    forage.Id = Guid.NewGuid().ToString();
-        //    forages.Add(forage);
-        //    return forage;
-        //}
+        public List<Reservation> FindByHostID(string hostId)    //check this one
+        {
+            Host host = new Host();
+            host.Id = hostId;
+                return reservations
+                    .Where(i => i.Host.Id == hostId)
+                    .ToList();
+        }
 
-        //public List<Forage> FindByDate(DateTime date)
-        //{
-        //    return forages
-        //        .Where(i => i.Date.Date == date.Date)
-        //        .ToList();
-        //}
+        public Reservation Create(Reservation reservation, string hostId)
+        {
+            List<Reservation> reservations = FindByHostID(hostId);
+            reservation.Id = reservations.Max(i => i.Id) + 1;
+            reservations.Add(reservation);
+            return reservation;
+        }
 
-        //public bool Update(Forage forage)
-        //{
-        //    return false;
-        //}
+        public bool Edit(Reservation reservation, string hostId)
+        {
+            return false;
+        }
+
+        public Reservation Cancel(Reservation reservation, string hostId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

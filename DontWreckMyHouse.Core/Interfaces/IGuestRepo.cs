@@ -9,8 +9,6 @@ namespace DontWreckMyHouse.Core.Interfaces
 {
     public interface IGuestRepo
     {
-        //FindBy...
         Guest FindByPhone(string phone);        //debating string or int
-        //Similar to IHostRepo
     }
 }

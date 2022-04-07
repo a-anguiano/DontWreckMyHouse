@@ -8,20 +8,24 @@ using DontWreckMyHouse.Core.Models;
 
 namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
 {
-    public class GuestRepoDouble //: //IGuestRepo
+    public class GuestRepoDouble : IGuestRepo
     {
-        //1,Sullivan,Lomas,slomas0@mediafire.com,(702) 7768761,NV
-        public static readonly Guest GUEST = new Guest("1", "Smith", "Thomas", "email.msn", "(972) 8675309", "TX");
-        private List<Guest> guests = new List<Guest>();
+        public static readonly Guest GUEST = new Guest("1", "Sullivan", "Lomas", "slomas0@mediafire.com", "(702) 7768761", "NV");
+        //public static readonly Guest GUEST2 = new Guest("2", "Olympie", "Gecks", "ogecks1@dagondesign.com", "(202) 2528316", "DC");
 
-        //public HostRepoDouble()
+        //private List<Guest> guests = new List<Guest>();
+
+        //public GuestRepoDouble()
         //{
-        //    hosts.Add(HOST);
+        //    guests.Add(GUEST);
+        //    guests.Add(GUEST2);
         //}
 
-        //public Guest FindByPhone(string phone)        //string or int
-        //{
-        //    return new Guest(guests);
-        //}
-    }
+        //DAL take cares of finding phone
+
+        public Guest FindByPhone(string phone)        //string or int
+        {
+            return GUEST;
+        }
+}
 }
