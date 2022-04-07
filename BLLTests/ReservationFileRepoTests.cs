@@ -23,8 +23,8 @@ namespace DontWreckMyHouse.DAL.Tests
 
         //Host host = new Host();     //hmmmmmmmm
         string hostID = "3f413626-e129-4d06-b68c-36450822213f";
-        DateTime startDate = new DateTime(21, 12, 1);
-        DateTime endDate = new DateTime(21, 12, 6);
+        DateTime startDate = new DateTime(2021, 12, 1);
+        DateTime endDate = new DateTime(2021, 12, 6);
 
         private ReservationFileRepo _repo;
         
@@ -57,7 +57,6 @@ namespace DontWreckMyHouse.DAL.Tests
             Assert.AreEqual(RESERVATION_COUNT, reservations.Count);
         }
 
-        //should create
         [Test]
         public void ShouldCreate()
         {
@@ -70,8 +69,41 @@ namespace DontWreckMyHouse.DAL.Tests
 
             Assert.AreEqual(expected.ToString(), actual.ToString());
         }
-        //should edit
+
+        [Test]
+        public void ShouldEdit()        //conventions for naming
+        {
+            Guest guest = new Guest();
+            guest.Id = "1001";
+            var reservation = new Reservation() { Id = 1, StartDate = startDate, EndDate = endDate, Guest = guest, TotalCost = 1200M };
+
+            _repo!.Edit(reservation, hostID);
+            var reservations = _repo!.FindByHostID(hostID);
+
+            Assert.AreEqual(1, reservations[0].Id);
+            Assert.AreEqual(startDate, reservations[0].StartDate);
+            Assert.AreEqual(endDate, reservations[0].EndDate);
+            Assert.AreEqual(guest, reservations[0].Guest);
+            Assert.AreEqual(1200M, reservations[0].TotalCost);  
+        }
+
         //should cancel
+        [Test]
+        public void ShouldCancel()
+        {
+            //2,2021-11-04,2021-11-07,937,602
+            DateTime startDateCancel = new DateTime(2021, 11, 4);
+            DateTime endDateCancel = new DateTime(2021, 11, 7);
+            Guest guest = new Guest();
+            guest.Id = "937";
+            var reservation = new Reservation() { Id = 2, StartDate = startDateCancel, EndDate = endDateCancel, Guest = guest, TotalCost = 602M };
+            _repo!.Cancel(reservation, hostID);
+            var reservations = _repo!.FindByHostID(hostID);
+
+            Assert.AreEqual(12, reservations.Count);
+        }
+
+        //shouldNotcancel
 
         private Reservation MakeResTamAmy()
         {

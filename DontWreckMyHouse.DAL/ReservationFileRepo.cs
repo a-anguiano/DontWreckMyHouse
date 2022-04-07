@@ -61,24 +61,35 @@ namespace DontWreckMyHouse.DAL
             return reservation;
         }
 
-        public bool Edit(Reservation reservation)         //bool?
+        public bool Edit(Reservation reservation, string hostId)         //bool?
         {
-            List<Reservation> all = FindByHostID(reservation.Host.Id);
+            List<Reservation> all = FindByHostID(hostId);
             for (int i = 0; i < all.Count; i++)
             {
                 if (all[i].Id == reservation.Id)
                 {
                     all[i] = reservation;
-                    Write(all, reservation.Host.Id);
+                    Write(all, hostId);
                     return true;
                 }
             }
             return false;
         }
 
-        public Reservation Cancel(Reservation reservation)
+        public Reservation Cancel(Reservation reservation, string hostId)
         {
-            throw new NotImplementedException();
+            List<Reservation> all = FindByHostID(hostId);
+
+            for(int i = 0; i < all.Count; i++)
+            {
+                if(all[i].Id == reservation.Id)
+                {
+                    all.RemoveAt(i);
+                    Write(all, hostId);
+                    return reservation;
+                }
+            }
+            return reservation;
         }
 
         private string GetFilePath(string guid)
@@ -108,9 +119,6 @@ namespace DontWreckMyHouse.DAL
             result.StartDate = DateTime.Parse(fields[1]);
             result.EndDate = DateTime.Parse(fields[2]);
 
-            //Host host = new Host();
-            //host.Id = fields[3];
-            //result.Host = host;
             Guest guest = new Guest();
             guest.Id = fields[3];
             result.Guest = guest;                      //
