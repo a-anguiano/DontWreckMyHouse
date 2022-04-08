@@ -8,10 +8,16 @@ namespace DontWreckMyHouse.BLL.Tests
 {
     public class ReservationServiceTests
     {
-        ReservationService service = new ReservationService(
+        private ReservationService service;
+
+        [SetUp]
+        public void SetUp()
+        {
+            service = new ReservationService(
            new ReservationRepoDouble(),
            new GuestRepoDouble(),
            new HostRepoDouble());
+        }
 
         DateTime startDateValid = new DateTime(2022, 7, 7); //could add from current date
         DateTime endDateValid = new DateTime(2022, 7, 10);
@@ -118,5 +124,37 @@ namespace DontWreckMyHouse.BLL.Tests
             Result<Reservation> result = service.Create(reservation);
             Assert.IsFalse(result.Success);
         }
+
+        [Test]
+        public void ShouldEdit_ReturnsEditedReservationWithoutChangingAnythingButStartOrEndDate()
+        {
+            Host host = HostRepoDouble.HOST;
+            Guest guest = GuestRepoDouble.GUEST;
+            //id,start_date,end_date,guest_id,total
+            var updatedReservation = new Reservation
+            {
+                Id = 1,
+                StartDate = DateTime.Parse("6/26/2022"),
+                EndDate = DateTime.Parse("7/1/2022"),
+                Host = host,
+                Guest = guest,
+                TotalCost = 2125M                 //new Total is Sun-Fr, 340/425 => 2125M                               
+        };
+
+            Result<Reservation> updatedResult = service!.Edit(updatedReservation);
+
+            Assert.IsTrue(updatedResult.Success);
+            Assert.NotNull(updatedResult.Value);
+
+            var updatedReservationById = service!.GetReservationById(updatedResult.Value);    //Reservation
+            var reservations = service!.FindByHost(updatedReservation.Host);
+            
+            // TODO: Add more asserts for additional fields
+            Assert.AreEqual(2, reservations.Count);
+            Assert.AreEqual(DateTime.Parse("6/26/2022"), updatedReservationById.StartDate);
+            Assert.AreEqual(DateTime.Parse("7/1/2022"), updatedReservationById.EndDate);            
+        }
+
+        
     }
 }

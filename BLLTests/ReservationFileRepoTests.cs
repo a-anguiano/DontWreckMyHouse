@@ -78,14 +78,18 @@ namespace DontWreckMyHouse.DAL.Tests
         {
             Guest guest = new Guest();
             guest.Id = "1001";
-            var reservation = new Reservation() { Id = 1, StartDate = startDate, EndDate = endDate, Guest = guest, TotalCost = 1200M };
+            Host host = new Host();
+            host.Id = hostID;
+            var reservation = new Reservation() { Id = 1, StartDate = startDate, EndDate = endDate, Host = host, Guest = guest, TotalCost = 1200M };
+            
 
-            _repo!.Edit(reservation, hostID);
-            var reservations = _repo!.FindByHostID(hostID);
+            _repo!.Edit(reservation);
+            var reservations = _repo!.FindByHostID(reservation.Host.Id);
 
             Assert.AreEqual(1, reservations[0].Id);
             Assert.AreEqual(startDate, reservations[0].StartDate);
             Assert.AreEqual(endDate, reservations[0].EndDate);
+            Assert.AreEqual(host, reservations[0].Host);
             Assert.AreEqual(guest, reservations[0].Guest);
             Assert.AreEqual(1200M, reservations[0].TotalCost);  
         }

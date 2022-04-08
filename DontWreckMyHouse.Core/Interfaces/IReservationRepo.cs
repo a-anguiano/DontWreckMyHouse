@@ -17,7 +17,7 @@ namespace DontWreckMyHouse.Core.Interfaces
 
         Reservation Create(Reservation reservation); //changed
 
-        bool Edit(Reservation reservation, string hostId);         //bool?
+        Reservation Edit(Reservation reservation);         //bool?
 
         Reservation Cancel(Reservation reservation, string hostId);
     }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DontWreckMyHouse.Core.Models;
 using DontWreckMyHouse.Core.Interfaces;
 using DontWreckMyHouse.Core;
+using System.IO;
 
 namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
 {
@@ -56,9 +57,22 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
             return reservation;
         }
 
-        public bool Edit(Reservation reservation, string hostId)
+        public Reservation Edit(Reservation reservationToUpdate)
         {
-            return false;
+            List<Reservation> all = FindByHostID(reservationToUpdate.Host.Id);
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (all[i].Id != reservationToUpdate.Id)
+                {
+                    continue;
+                }
+                reservations.Remove(all[i]);
+                all[i] = reservationToUpdate;                
+                reservations.Add(all[i]);
+                //Write(all, reservationToUpdate.Host.Id);
+                return reservationToUpdate;
+            }
+            return reservationToUpdate;
         }
 
         public Reservation Cancel(Reservation reservation, string hostId)

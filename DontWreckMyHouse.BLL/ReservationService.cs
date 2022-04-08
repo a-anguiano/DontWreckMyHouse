@@ -26,6 +26,14 @@ namespace DontWreckMyHouse.BLL
             return result;
         }
 
+        public Reservation GetReservationById(Reservation reservation)
+        {
+            List<Reservation> reservations = reservationRepo.FindByHostID(reservation.Host.Id);
+
+            var result = reservations.First(r => r.Id == reservation.Id);
+            return result;
+        }
+
         public decimal CalculateTotal(Reservation reservation)
         {
             //Can we use linq?
@@ -58,9 +66,16 @@ namespace DontWreckMyHouse.BLL
             return result;
         }
 
-        public bool Edit(Reservation reservation)         //bool?
+        public Result<Reservation> Edit(Reservation reservationToUpdate)         //bool?
         {
-            throw new NotImplementedException();
+            Result<Reservation> result = Validate(reservationToUpdate);     //edit controller needs to send in "new"
+            if (!result.Success)
+            {
+                return result;
+            }
+
+            result.Value = reservationRepo.Edit(reservationToUpdate);
+            return result;
         }
 
         public Reservation Cancel(Reservation reservation)

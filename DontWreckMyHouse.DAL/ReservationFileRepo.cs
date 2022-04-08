@@ -39,9 +39,13 @@ namespace DontWreckMyHouse.DAL
             for (int i = 1; i < lines.Length; i++) // skip the header
             {
                 string[] fields = lines[i].Split(",", StringSplitOptions.TrimEntries);
-                Reservation reservation = Deserialize(fields, hostId);
+                Reservation reservation = Deserialize(fields, hostId);                
+
                 if (reservation != null)
                 {
+                    Host host = new Host();
+                    host.Id = hostId;
+                    reservation.Host = host;
                     reservations.Add(reservation);
                 }
             }
@@ -61,19 +65,21 @@ namespace DontWreckMyHouse.DAL
             return reservation;
         }
 
-        public bool Edit(Reservation reservation, string hostId)         //bool?
+        public Reservation Edit(Reservation reservationToUpdate)         //bool?
         {
-            List<Reservation> all = FindByHostID(hostId);
+            //var result = new Result<>
+            List<Reservation> all = FindByHostID(reservationToUpdate.Host.Id);
             for (int i = 0; i < all.Count; i++)
             {
-                if (all[i].Id == reservation.Id)
+                if (all[i].Id != reservationToUpdate.Id)
                 {
-                    all[i] = reservation;
-                    Write(all, hostId);
-                    return true;
+                    continue; 
                 }
+                all[i] = reservationToUpdate;
+                Write(all, reservationToUpdate.Host.Id);
+                return reservationToUpdate;
             }
-            return false;
+            return reservationToUpdate;
         }
 
         public Reservation Cancel(Reservation reservation, string hostId)
