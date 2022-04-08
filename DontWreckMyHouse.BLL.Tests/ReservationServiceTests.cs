@@ -15,6 +15,9 @@ namespace DontWreckMyHouse.BLL.Tests
 
         DateTime startDateValid = new DateTime(2022, 7, 7); //could add from current date
         DateTime endDateValid = new DateTime(2022, 7, 10);
+        DateTime startDateInvalid = new DateTime(2022, 7, 2);   //taken 7/2
+        DateTime endDateInvalid = new DateTime(2022, 7, 4);  //taken 7/4
+        DateTime invalidDate = new DateTime(2022, 7, 3);    //in middle of dates taken
 
         [Test]
         public void ShouldCalculateTotal_WithReservation()
@@ -22,8 +25,7 @@ namespace DontWreckMyHouse.BLL.Tests
             Reservation reservation = new Reservation();
             reservation.Id = 3;
             reservation.StartDate = startDateValid;
-            reservation.EndDate = endDateValid;
-            //reservation.TotalCost = 1530M;                   
+            reservation.EndDate = endDateValid;                  
             Host host = HostRepoDouble.HOST;    //weekend 425, standard 340, thurs-sun
             reservation.Host = host;
             Guest guest = GuestRepoDouble.GUEST;
@@ -52,27 +54,69 @@ namespace DontWreckMyHouse.BLL.Tests
 
         //UI view and controller may cover host and guest null
         [Test]
-        public void ShouldNotCreateWhenHostNotFound()
+        public void ShouldNotCreateWhenOverlapOfDates_WithInvalidStartDateOnEdge()
         {
-            //id,last_name,email,phone,address,city,state,postal_code,standard_rate,weekend_rate
-            string invalidID = Guid.NewGuid().ToString();
-            Host host = new Host(invalidID, "Torrance", "overlookHotel@king.com", "(975) 8675309", "Overlook Hotel",
-                "Denver", "CO", 75077, 200, 250);
-
-
             Reservation reservation = new Reservation();
-            reservation.Id = 2;
-            reservation.StartDate = startDateValid;
+            reservation.Id = 3;
+            reservation.StartDate = startDateInvalid;
             reservation.EndDate = endDateValid;
-            reservation.TotalCost = 900M;                   //host math
+            reservation.TotalCost = 900M;                   
+            Host host = HostRepoDouble.HOST;
             reservation.Host = host;
             Guest guest = GuestRepoDouble.GUEST;
-            reservation.Guest = guest;      //could make guest 2
+            reservation.Guest = guest;     
+
+            Result<Reservation> result = service.Create(reservation);
+            Assert.IsFalse(result.Success);
+        }
+        [Test]
+        public void ShouldNotCreateWhenOverlapOfDates_WithInvalidEndDateOnEdge()
+        {
+            Reservation reservation = new Reservation();
+            reservation.Id = 3;
+            reservation.StartDate = startDateValid;
+            reservation.EndDate = endDateInvalid;
+            reservation.TotalCost = 900M;                  
+            Host host = HostRepoDouble.HOST;
+            reservation.Host = host;
+            Guest guest = GuestRepoDouble.GUEST;
+            reservation.Guest = guest;      
+
+            Result<Reservation> result = service.Create(reservation);
+            Assert.IsFalse(result.Success);
+        }
+        [Test]
+        public void ShouldNotCreateWhenOverlapOfDates_WithInvalidStartDateInMiddle()
+        {
+            Reservation reservation = new Reservation();
+            reservation.Id = 3;
+            reservation.StartDate = invalidDate;
+            reservation.EndDate = endDateValid;
+            reservation.TotalCost = 900M;                 
+            Host host = HostRepoDouble.HOST;
+            reservation.Host = host;
+            Guest guest = GuestRepoDouble.GUEST;
+            reservation.Guest = guest;      
 
             Result<Reservation> result = service.Create(reservation);
             Assert.IsFalse(result.Success);
         }
 
-        //public void ShouldNotCreateWhenOverlapOfDates()
+        [Test]
+        public void ShouldNotCreateWhenOverlapOfDates_WithInvalidEndDateInMiddle()
+        {
+            Reservation reservation = new Reservation();
+            reservation.Id = 3;
+            reservation.StartDate = startDateValid;
+            reservation.EndDate = invalidDate;
+            reservation.TotalCost = 900M;
+            Host host = HostRepoDouble.HOST;
+            reservation.Host = host;
+            Guest guest = GuestRepoDouble.GUEST;
+            reservation.Guest = guest;
+
+            Result<Reservation> result = service.Create(reservation);
+            Assert.IsFalse(result.Success);
+        }
     }
 }

@@ -28,9 +28,7 @@ namespace DontWreckMyHouse.BLL
 
         public decimal CalculateTotal(Reservation reservation)
         {
-            //TimeSpan stayDays = reservation.EndDate.Subtract(reservation.StartDate);
-            //stayDays.Where(d => Weekday(d) == 1 || Weekday(d) == 7);
-
+            //Can we use linq?
             decimal total = 0;
             for (DateTime date = reservation.StartDate; date.Date <= reservation.EndDate; date = date.AddDays(1))
             {
@@ -45,14 +43,11 @@ namespace DontWreckMyHouse.BLL
             }
 
             return total;
-            //consider any LINQ
-            //d => d.DayOfWeek == d.Saturday || d.DayOfWeek == d.Sunday //meh
-            //StayDays.Where(d => Weekday(d) == 1 || Weekday(d) == 7)
         }
 
-        public Result<Reservation> Create(Reservation reservation)    //Guest guest, Host host
+        public Result<Reservation> Create(Reservation reservation)  
         {
-            Result<Reservation> result = Validate(reservation);  //phone?
+            Result<Reservation> result = Validate(reservation); 
             if (!result.Success)
             {
                 return result;
@@ -73,7 +68,7 @@ namespace DontWreckMyHouse.BLL
             throw new NotImplementedException();
         }
 
-        private Result<Reservation> Validate(Reservation reservation) //, Host host, Guest guest)
+        private Result<Reservation> Validate(Reservation reservation) 
         {
             Result<Reservation> result = ValidateNulls(reservation);
             if (!result.Success)
@@ -88,22 +83,24 @@ namespace DontWreckMyHouse.BLL
             }
 
             ValidateChildrenExist(reservation, result);
+            if (!result.Success)
+            {
+                return result;
+            }
+            
+            ValidateNoOverlap(reservation, result);
             return result;
-
-            //MOVE TO HERE
         }
 
         private void ValidateNoOverlap(Reservation reservation, Result<Reservation> result)
         {
             List<Reservation> reservations = reservationRepo.FindByHostID(reservation.Host.Id);
-            //timespan
 
-            if (reservations.Any(r => r.StartDate >= reservation.StartDate && r.StartDate >= reservation.EndDate
-            || r.EndDate <= reservation.StartDate && r.EndDate >= reservation.EndDate))
+            if (reservations.Any(r => r.StartDate >= reservation.StartDate && r.StartDate <= reservation.EndDate
+            || r.EndDate >= reservation.StartDate && r.EndDate <= reservation.EndDate))
             {
                 result.AddMessage("Cannot enter an overlapping date");
             }
-            //Any Overlapping dates for list of reservations at specific host/location
         }
         private Result<Reservation> ValidateNulls(Reservation reservation)
         {
@@ -125,14 +122,7 @@ namespace DontWreckMyHouse.BLL
                 result.AddMessage("Guest is required.");
             }
 
-            //if (reservation.StartDate == null)
-            //{
-            //    result.AddMessage("Start Date is required.");
-            //}
-            //if (reservation.EndDate == null)
-            //{
-            //    result.AddMessage("End Date is required.");
-            //}
+            //StartDate and EndDate can never be null since type DateTime is never equal to null
 
             return result;
         }

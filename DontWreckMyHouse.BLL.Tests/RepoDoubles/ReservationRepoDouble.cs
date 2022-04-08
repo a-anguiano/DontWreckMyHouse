@@ -13,8 +13,8 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
     {
         DateTime startDate = new DateTime(2020, 6, 26);
         DateTime endDate = new DateTime(2020,7, 1);
-        DateTime startDate1 = new DateTime(2021, 7, 2);
-        DateTime endDate1 = new DateTime(2021, 7, 4);
+        DateTime startDate1 = new DateTime(2022, 7, 2);
+        DateTime endDate1 = new DateTime(2022, 7, 4);
 
         private readonly List<Reservation> reservations = new List<Reservation>();
 
