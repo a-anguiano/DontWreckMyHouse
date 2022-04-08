@@ -26,15 +26,15 @@ namespace DontWreckMyHouse.BLL
         }
 
 
-        public Result<Reservation> Create(Reservation reservation,string guestId, string hostId)    //Guest guest, Host host
+        public Result<Reservation> Create(Reservation reservation, Host host, Guest guest)    //Guest guest, Host host
         {
-            Result<Reservation> result = Validate(reservation, guestId, hostId);
+            Result<Reservation> result = Validate(reservation, host, guest);  //phone?
             if (!result.Success)
             {
                 return result;
             }
 
-            result.Value = reservationRepo.Create(reservation, guestId, hostId);
+            result.Value = reservationRepo.Create(reservation, host, guest);
 
             return result;
         }
@@ -49,9 +49,9 @@ namespace DontWreckMyHouse.BLL
             throw new NotImplementedException();
         }
 
-        private Result<Reservation> Validate(Reservation reservation, string hostId)
+        private Result<Reservation> Validate(Reservation reservation, Host host, Guest guest)
         {
-            Result<Reservation> result = ValidateNulls(reservation);
+            Result<Reservation> result = ValidateNulls(reservation, host, guest);
             if (!result.Success)
             {
                 return result;
@@ -63,17 +63,10 @@ namespace DontWreckMyHouse.BLL
                 return result;
             }
 
-            ValidateChildrenExist(reservation, result);
+            ValidateChildrenExist(reservation, guest, host, result);
             return result;
         }
-        //private void ValidateComboOfDateItemForagerIsNotDuplicate(Forage forage, Result<Forage> result) 
-        //{
-        //    List<Forage> forages = forageRepository.FindByDate(forage.Date);
-        //    if (forages.Any(f => f.Date == forage.Date && f.Item == forage.Item && f.Forager == forage.Forager))
-        //    {
-        //        result.AddMessage("Cannot enter a duplicate combination of Date/Item/Forager.");
-        //    }
-        //}
+
         private void ValidateNoOverlap(Reservation reservation, string hostId, Result<Reservation> result)
         {
             List<Reservation> reservations = reservationRepo.FindByHostID(hostId);
@@ -85,7 +78,7 @@ namespace DontWreckMyHouse.BLL
             }
             //Any Overlapping dates for list of reservations at specific host/location
         }
-        private Result<Reservation> ValidateNulls(Reservation reservation)
+        private Result<Reservation> ValidateNulls(Reservation reservation, Host host, Guest guest)
         {
             var result = new Result<Reservation>();
 
@@ -95,12 +88,12 @@ namespace DontWreckMyHouse.BLL
                 return result;
             }
 
-            if (reservation.Host == null)
+            if (host.Id == null)
             {
                 result.AddMessage("Host is required.");
             }
 
-            if (reservation.Guest == null)
+            if (guest.Id == null)
             {
                 result.AddMessage("Guest is required.");
             }
@@ -130,15 +123,15 @@ namespace DontWreckMyHouse.BLL
             }
         }
 
-        private void ValidateChildrenExist(Reservation reservation, string guestId, string hostId, Result<Reservation> result)
+        private void ValidateChildrenExist(Reservation reservation, Guest guest, Host host, Result<Reservation> result)
         {
-            if (guestId == null
+            if (guest.Id == null
                     || guestRepo.FindByPhone(reservation.Guest.Phone) == null)
             {
                 result.AddMessage("Guest does not exist.");
             }
 
-            if (hostRepo.FindByState(reservation.Host.State) == null)        //host hmm, may need findbyid
+            if (hostRepo.FindByState(host.State) == null)        //host hmm, may need findbyid or phone
             {
                 result.AddMessage("Host does not exist.");
             }

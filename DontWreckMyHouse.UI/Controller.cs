@@ -100,7 +100,7 @@ namespace DontWreckMyHouse.UI
                 return;
             }
             Reservation reservation = view.MakeReservation(host, guest);
-            Result<Reservation> result = reservationService.Create(reservation);
+            Result<Reservation> result = reservationService.Create(reservation, host, guest);
             if (!result.Success)
             {
                 view.DisplayStatus(false, result.Messages);

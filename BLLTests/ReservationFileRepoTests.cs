@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using System.IO;
 using DontWreckMyHouse.Core.Models;
+using DontWreckMyHouse.Core;
 
 namespace DontWreckMyHouse.DAL.Tests
 {
@@ -63,7 +64,10 @@ namespace DontWreckMyHouse.DAL.Tests
 
             Reservation reservation = MakeResTamAmy();
             //string hostId = Guid.NewGuid().ToString(); 
-            Reservation actual = _repo.Create(reservation, hostID);
+            Host host = new Host();
+            host.Id = hostID;
+            Guest guest = new Guest();
+            Reservation actual = _repo.Create(reservation, host, guest);
 
             Assert.AreEqual(expected.ToString(), actual.ToString());
         }

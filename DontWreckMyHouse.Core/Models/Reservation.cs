@@ -14,6 +14,8 @@ namespace DontWreckMyHouse.Core.Models
         public DateTime EndDate { get; set; }
         public Host Host { get; set; }      //hmmm
         public Guest Guest { get; set; }
+
+        //MAYBE ACTUALLY HAVE GUESTID HOSTID
         public decimal TotalCost { get; set; }
 
         //send in date for each day reserved

@@ -48,9 +48,9 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
                     .ToList();
         }
 
-        public Reservation Create(Reservation reservation, string hostId)
+        public Reservation Create(Reservation reservation, Host host, Guest guest)
         {
-            List<Reservation> reservations = FindByHostID(hostId);
+            List<Reservation> reservations = FindByHostID(host.Id);
             reservation.Id = reservations.Max(i => i.Id) + 1;
             reservations.Add(reservation);
             return reservation;

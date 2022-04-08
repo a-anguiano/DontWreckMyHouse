@@ -24,15 +24,18 @@ namespace DontWreckMyHouse.BLL.Tests
             reservation.StartDate = startDateValid;
             reservation.EndDate = endDateValid;
             reservation.TotalCost = 900M;                   //host math
-            reservation.Host = HostRepoDouble.HOST;
-            reservation.Guest = GuestRepoDouble.GUEST;      //could make guest 2
+            Host host = HostRepoDouble.HOST;
+            reservation.Host = host;
+            Guest guest = GuestRepoDouble.GUEST;
+            reservation.Guest = guest;      //could make guest 2
 
-            Result<Reservation> result = service.Create(reservation, reservation.Host.Id);
+            Result<Reservation> result = service.Create(reservation, host, guest);
             Assert.IsTrue(result.Success);
             Assert.NotNull(result.Value);
             //Assert.AreEqual(36, result.Value.Id.Length);
         }
 
+        //UI view and controller may cover host and guest null
         [Test]
         public void ShouldNotCreateWhenHostNotFound()
         {
@@ -48,9 +51,10 @@ namespace DontWreckMyHouse.BLL.Tests
             reservation.EndDate = endDateValid;
             reservation.TotalCost = 900M;                   //host math
             reservation.Host = host;
-            reservation.Guest = GuestRepoDouble.GUEST;      //could make guest 2
+            Guest guest = GuestRepoDouble.GUEST;
+            reservation.Guest = guest;      //could make guest 2
 
-            Result<Reservation> result = service.Create(reservation, reservation.Host.Id);
+            Result<Reservation> result = service.Create(reservation, host, guest);
             Assert.IsFalse(result.Success);
         }
 

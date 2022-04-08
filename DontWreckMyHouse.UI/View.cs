@@ -81,6 +81,7 @@ namespace DontWreckMyHouse.UI
             Reservation reservation = new Reservation();
 
             //Show current reservations at location
+            //FindByHost(host.Id)
             //DisplayReservations();
             reservation.StartDate = io.ReadDate("Start date [MM/dd/yyyy]: ");
             reservation.EndDate = io.ReadDate("End date [MM/dd/yyyy]: ");
