@@ -99,8 +99,18 @@ namespace DontWreckMyHouse.UI
             {
                 return;
             }
-            Reservation reservation = view.MakeReservation(host, guest);
-            Result<Reservation> result = reservationService.Create(reservation, host, guest);
+
+            List<Reservation> reservations = reservationService.FindByHost(host);
+            Reservation reservation = view.MakeReservation(reservations);
+            reservation.Host = host;
+            reservation.Guest = guest;
+
+
+            decimal total = reservationService.CalculateTotal(reservation);
+            reservation.TotalCost = total;
+            reservation = view.MakeSummary(reservation);
+
+            Result<Reservation> result = reservationService.Create(reservation);
             if (!result.Success)
             {
                 view.DisplayStatus(false, result.Messages);

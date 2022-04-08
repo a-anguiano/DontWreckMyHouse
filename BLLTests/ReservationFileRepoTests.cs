@@ -66,8 +66,9 @@ namespace DontWreckMyHouse.DAL.Tests
             //string hostId = Guid.NewGuid().ToString(); 
             Host host = new Host();
             host.Id = hostID;
-            Guest guest = new Guest();
-            Reservation actual = _repo.Create(reservation, host, guest);
+            reservation.Host = host;
+            //Guest guest = new Guest();
+            Reservation actual = _repo.Create(reservation);
 
             Assert.AreEqual(expected.ToString(), actual.ToString());
         }

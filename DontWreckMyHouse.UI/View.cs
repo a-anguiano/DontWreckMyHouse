@@ -76,22 +76,33 @@ namespace DontWreckMyHouse.UI
             return hosts[index - 1];
         }
 
-        public Reservation MakeReservation(Host host, Guest guest)      //or Create, params?
+        public Reservation MakeReservation(List<Reservation> reservations)      //or Create, params? //, Host host, Guest guest
         {
             Reservation reservation = new Reservation();
-
-            //Show current reservations at location
-            //FindByHost(host.Id)
-            //DisplayReservations();
+            
+            DisplayReservations(reservations);
             reservation.StartDate = io.ReadDate("Start date [MM/dd/yyyy]: ");
             reservation.EndDate = io.ReadDate("End date [MM/dd/yyyy]: ");
 
+            return reservation;
+        }
+
+        public Reservation MakeSummary(Reservation reservation)
+        {
+
             DisplayHeader("Summary");
-            //DisplaySummary();
+            DisplaySummary(reservation);
+            bool response = io.ReadBool("Is this okay? [y/n]: ");     //need validation, char y or n
+            if (response)
+            {
+                return reservation;
+            }
+            else
+            {
+                return null;
+            }
             //check if ok
             //if not, do not create/make
-
-            return reservation;
         }
 
         public void EnterToContinue()

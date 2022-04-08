@@ -13,8 +13,8 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
     {
         DateTime startDate = new DateTime(2020, 6, 26);
         DateTime endDate = new DateTime(2020,7, 1);
-        DateTime startDate1 = new DateTime(2021, 6, 26);
-        DateTime endDate1 = new DateTime(2021, 7, 1);
+        DateTime startDate1 = new DateTime(2021, 7, 2);
+        DateTime endDate1 = new DateTime(2021, 7, 4);
 
         private readonly List<Reservation> reservations = new List<Reservation>();
 
@@ -48,9 +48,9 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
                     .ToList();
         }
 
-        public Reservation Create(Reservation reservation, Host host, Guest guest)
+        public Reservation Create(Reservation reservation)
         {
-            List<Reservation> reservations = FindByHostID(host.Id);
+            List<Reservation> reservations = FindByHostID(reservation.Host.Id);
             reservation.Id = reservations.Max(i => i.Id) + 1;
             reservations.Add(reservation);
             return reservation;

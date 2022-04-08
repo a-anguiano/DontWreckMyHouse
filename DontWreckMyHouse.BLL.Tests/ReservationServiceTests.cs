@@ -17,6 +17,22 @@ namespace DontWreckMyHouse.BLL.Tests
         DateTime endDateValid = new DateTime(2022, 7, 10);
 
         [Test]
+        public void ShouldCalculateTotal_WithReservation()
+        {
+            Reservation reservation = new Reservation();
+            reservation.Id = 3;
+            reservation.StartDate = startDateValid;
+            reservation.EndDate = endDateValid;
+            //reservation.TotalCost = 1530M;                   
+            Host host = HostRepoDouble.HOST;    //weekend 425, standard 340, thurs-sun
+            reservation.Host = host;
+            Guest guest = GuestRepoDouble.GUEST;
+            reservation.Guest = guest;
+            decimal total = service.CalculateTotal(reservation);
+            Assert.AreEqual(1530M, total);
+        }
+
+        [Test]
         public void ShouldCreate()
         {
             Reservation reservation = new Reservation();
@@ -29,10 +45,9 @@ namespace DontWreckMyHouse.BLL.Tests
             Guest guest = GuestRepoDouble.GUEST;
             reservation.Guest = guest;      //could make guest 2
 
-            Result<Reservation> result = service.Create(reservation, host, guest);
+            Result<Reservation> result = service.Create(reservation);
             Assert.IsTrue(result.Success);
             Assert.NotNull(result.Value);
-            //Assert.AreEqual(36, result.Value.Id.Length);
         }
 
         //UI view and controller may cover host and guest null
@@ -54,10 +69,10 @@ namespace DontWreckMyHouse.BLL.Tests
             Guest guest = GuestRepoDouble.GUEST;
             reservation.Guest = guest;      //could make guest 2
 
-            Result<Reservation> result = service.Create(reservation, host, guest);
+            Result<Reservation> result = service.Create(reservation);
             Assert.IsFalse(result.Success);
         }
 
-        //ShouldNotCreateWhen...
+        //public void ShouldNotCreateWhenOverlapOfDates()
     }
 }

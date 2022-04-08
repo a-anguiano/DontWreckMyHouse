@@ -49,15 +49,15 @@ namespace DontWreckMyHouse.DAL
         }
     
 
-        public Reservation Create(Reservation reservation, Host host, Guest guest)      //two params?Host host
+        public Reservation Create(Reservation reservation)      //two params?Host host
         {
-            List<Reservation> all = FindByHostID(host.Id);  //altered
+            List<Reservation> all = FindByHostID(reservation.Host.Id);  //altered
 
             int nextId = (all.Count == 0 ? 0 : all.Max(i => i.Id)) + 1;
             reservation.Id = nextId;
 
             all.Add(reservation);
-            Write(all, host.Id);
+            Write(all, reservation.Host.Id);
             return reservation;
         }
 
