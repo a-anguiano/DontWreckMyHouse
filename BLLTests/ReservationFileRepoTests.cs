@@ -67,7 +67,6 @@ namespace DontWreckMyHouse.DAL.Tests
             Host host = new Host();
             host.Id = hostID;
             reservation.Host = host;
-            //Guest guest = new Guest();
             Reservation actual = _repo.Create(reservation);
 
             Assert.AreEqual(expected.ToString(), actual.ToString());
@@ -103,8 +102,11 @@ namespace DontWreckMyHouse.DAL.Tests
             DateTime endDateCancel = new DateTime(2021, 11, 7);
             Guest guest = new Guest();
             guest.Id = "937";
-            var reservation = new Reservation() { Id = 2, StartDate = startDateCancel, EndDate = endDateCancel, Guest = guest, TotalCost = 602M };
-            _repo!.Cancel(reservation, hostID);
+            Host host = new Host();
+            host.Id = hostID;
+
+            var reservation = new Reservation() { Id = 2, StartDate = startDateCancel, EndDate = endDateCancel, Host = host, Guest = guest, TotalCost = 602M };
+            _repo!.Cancel(reservation);
             var reservations = _repo!.FindByHostID(hostID);
 
             Assert.AreEqual(12, reservations.Count);

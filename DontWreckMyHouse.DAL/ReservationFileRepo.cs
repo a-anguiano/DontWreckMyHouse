@@ -82,16 +82,16 @@ namespace DontWreckMyHouse.DAL
             return reservationToUpdate;
         }
 
-        public Reservation Cancel(Reservation reservation, string hostId)
+        public Reservation Cancel(Reservation reservation)
         {
-            List<Reservation> all = FindByHostID(hostId);
+            List<Reservation> all = FindByHostID(reservation.Host.Id);
 
             for(int i = 0; i < all.Count; i++)
             {
                 if(all[i].Id == reservation.Id)
                 {
                     all.RemoveAt(i);
-                    Write(all, hostId);
+                    Write(all, reservation.Host.Id);
                     return reservation;
                 }
             }

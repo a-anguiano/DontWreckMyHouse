@@ -69,15 +69,26 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
                 reservations.Remove(all[i]);
                 all[i] = reservationToUpdate;                
                 reservations.Add(all[i]);
-                //Write(all, reservationToUpdate.Host.Id);
                 return reservationToUpdate;
             }
             return reservationToUpdate;
         }
 
-        public Reservation Cancel(Reservation reservation, string hostId)
+        public Reservation Cancel(Reservation reservation)
         {
-            throw new NotImplementedException();
+            List<Reservation> all = FindByHostID(reservation.Host.Id);
+
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (all[i].Id != reservation.Id)
+                {
+                    continue;
+                }
+                reservations.RemoveAt(i);
+                //all.RemoveAt(i);
+                return reservation;
+            }
+            return reservation;
         }
     }
 }

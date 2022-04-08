@@ -155,6 +155,26 @@ namespace DontWreckMyHouse.BLL.Tests
             Assert.AreEqual(DateTime.Parse("7/1/2022"), updatedReservationById.EndDate);            
         }
 
-        
+        [Test]
+        public void ShouldCancel()
+        {
+            DateTime startDate1 = new DateTime(2022, 7, 2);
+            DateTime endDate1 = new DateTime(2022, 7, 4);
+
+            Reservation reservation1 = new Reservation();
+            reservation1.Id = 2;
+            reservation1.StartDate = startDate1;
+            reservation1.EndDate = endDate1;
+            reservation1.TotalCost = 250M;
+            reservation1.Host = HostRepoDouble.HOST;
+            reservation1.Guest = GuestRepoDouble.GUEST;
+
+            var deleteResult = service!.Cancel(reservation1);
+            Assert.IsTrue(deleteResult.Success);
+
+            var reservations = service.FindByHost(reservation1.Host);
+
+            Assert.AreEqual(1, reservations.Count);                       
+        }
     }
 }

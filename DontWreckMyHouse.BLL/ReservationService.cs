@@ -78,9 +78,17 @@ namespace DontWreckMyHouse.BLL
             return result;
         }
 
-        public Reservation Cancel(Reservation reservation)
+        public Result<Reservation> Cancel(Reservation reservationToDelete)
         {
-            throw new NotImplementedException();
+            Result<Reservation> result = ValidateForCancel(reservationToDelete); //may need to adjust for dates in the past?
+            if (!result.Success)
+            {
+                return result;
+            }
+
+            result.Value = reservationRepo.Cancel(reservationToDelete);
+
+            return result;
         }
 
         private Result<Reservation> Validate(Reservation reservation) 
@@ -117,6 +125,25 @@ namespace DontWreckMyHouse.BLL
                 result.AddMessage("Cannot enter an overlapping date");
             }
         }
+
+        private Result<Reservation> ValidateForCancel(Reservation reservation)
+        {
+            Result<Reservation> result = ValidateNulls(reservation);
+            if (!result.Success)
+            {
+                return result;
+            }
+
+            ValidateFields(reservation, result);
+            if (!result.Success)
+            {
+                return result;
+            }
+
+            ValidateChildrenExist(reservation, result);
+            return result;
+        }
+
         private Result<Reservation> ValidateNulls(Reservation reservation)
         {
             var result = new Result<Reservation>();
