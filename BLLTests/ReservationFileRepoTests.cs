@@ -30,13 +30,10 @@ namespace DontWreckMyHouse.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            //if (File.Exists(LogFile)) File.Delete(LogFile);
             if (!Directory.Exists(TEST_DIRECTORY))
             {
                 Directory.CreateDirectory(TEST_DIRECTORY);
             }
-
-            //if (File.Exists(TEST_FILE)) File.Delete(TEST_FILE);
 
             File.Copy(SEED_PATH, TEST_PATH, true);
 
@@ -63,7 +60,6 @@ namespace DontWreckMyHouse.DAL.Tests
             expected.Id = NEXT_ID;
 
             Reservation reservation = MakeResTamAmy();
-            //string hostId = Guid.NewGuid().ToString(); 
             Host host = new Host();
             host.Id = hostID;
             reservation.Host = host;
@@ -73,7 +69,7 @@ namespace DontWreckMyHouse.DAL.Tests
         }
 
         [Test]
-        public void ShouldEdit()        //conventions for naming
+        public void ShouldEdit()        
         {
             Guest guest = new Guest();
             guest.Id = "1001";
@@ -93,7 +89,6 @@ namespace DontWreckMyHouse.DAL.Tests
             Assert.AreEqual(1200M, reservations[0].TotalCost);  
         }
 
-        //should cancel
         [Test]
         public void ShouldCancel()
         {
@@ -117,12 +112,12 @@ namespace DontWreckMyHouse.DAL.Tests
         private Reservation MakeResTamAmy()
         {
             Reservation reservation = new Reservation();
-            reservation.Id = 14;     //perhaps
+            reservation.Id = 14;     
             reservation.StartDate = startDate;
             reservation.EndDate = endDate;
             Guest guest = new Guest();
             guest.Id = "1001";
-            reservation.Guest = guest;      //int?
+            reservation.Guest = guest;     
             reservation.TotalCost = 1200M;
             return reservation;
         }

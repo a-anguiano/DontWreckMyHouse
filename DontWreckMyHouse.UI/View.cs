@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DontWreckMyHouse.Core.Models;
+﻿using DontWreckMyHouse.Core.Models;
 using DontWreckMyHouse.Core;
 
 namespace DontWreckMyHouse.UI
@@ -92,7 +87,7 @@ namespace DontWreckMyHouse.UI
             return hosts[index - 1];
         }
 
-        public Reservation MakeReservation(List<Reservation> reservations)      //or Create, params? //, Host host, Guest guest
+        public Reservation MakeReservation(List<Reservation> reservations)     
         {
             Reservation reservation = new Reservation();
             
@@ -107,7 +102,7 @@ namespace DontWreckMyHouse.UI
         {
             DisplayHeader("Summary");
             DisplaySummary(reservation);
-            bool response = io.ReadBool("Is this okay? [y/n]: ");     //need validation, char y or n
+            bool response = io.ReadBool("Is this okay? [y/n]: ");  
             if (response)
             {
                 return reservation;

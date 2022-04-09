@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using DontWreckMyHouse.Core;
@@ -19,7 +15,7 @@ namespace DontWreckMyHouse.DAL.Tests
         string SEED_PATH = Path.Combine(SEED_DIRECTORY, SEED_FILE);
         string TEST_PATH = Path.Combine(TEST_DIRECTORY, TEST_FILE);
 
-        const int HOST_TX_COUNT = 17;      //count
+        const int HOST_TX_COUNT = 17;     
         const string HOST_KY_NAME = "KY";
 
 
@@ -28,17 +24,14 @@ namespace DontWreckMyHouse.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            //if (File.Exists(LogFile)) File.Delete(LogFile);
             if (!Directory.Exists(TEST_DIRECTORY))
             {
                 Directory.CreateDirectory(TEST_DIRECTORY);
             }
 
-            //if (File.Exists(TEST_FILE)) File.Delete(TEST_FILE);
-
             File.Copy(SEED_PATH, TEST_PATH, true);
 
-            _repo = new HostFileRepo(TEST_PATH);       //test path
+            _repo = new HostFileRepo(TEST_PATH);      
         }
 
         [Test]

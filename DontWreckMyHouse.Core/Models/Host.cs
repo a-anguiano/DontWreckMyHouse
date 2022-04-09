@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace DontWreckMyHouse.Core
+﻿namespace DontWreckMyHouse.Core
 {
     public class Host
     {
-        public string Id { get; set; }  //GUID
+        public string Id { get; set; } 
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; } 
@@ -32,7 +30,6 @@ namespace DontWreckMyHouse.Core
             WeekendRate = weekendRate;
         }
 
-        //consider any overrides
         public override bool Equals(object obj)
         {
             return obj is Host host &&
@@ -48,7 +45,6 @@ namespace DontWreckMyHouse.Core
                    WeekendRate == host.WeekendRate;
         }
 
-        //What should all be included here?
         public override int GetHashCode()
         {
             return HashCode.Combine(Id, Email, LastName, Phone, Address, City, State, Zip);

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DontWreckMyHouse.Core.Interfaces;
+﻿using DontWreckMyHouse.Core.Interfaces;
 using DontWreckMyHouse.Core.Models;
 
 namespace DontWreckMyHouse.BLL
@@ -16,7 +11,7 @@ namespace DontWreckMyHouse.BLL
         {
             this.repository = repository;
         }
-        public Guest FindByPhone(string phone)        //string or int
+        public Guest FindByPhone(string phone)
         {
             return repository.FindByPhone(phone);
         }

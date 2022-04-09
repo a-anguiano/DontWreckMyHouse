@@ -19,11 +19,11 @@ namespace DontWreckMyHouse.BLL.Tests
            new HostRepoDouble());
         }
 
-        DateTime startDateValid = new DateTime(2022, 7, 7); //could add from current date
+        DateTime startDateValid = new DateTime(2022, 7, 7); 
         DateTime endDateValid = new DateTime(2022, 7, 10);
-        DateTime startDateInvalid = new DateTime(2022, 7, 2);   //taken 7/2
-        DateTime endDateInvalid = new DateTime(2022, 7, 4);  //taken 7/4
-        DateTime invalidDate = new DateTime(2022, 7, 3);    //in middle of dates taken
+        DateTime startDateInvalid = new DateTime(2022, 7, 2);   
+        DateTime endDateInvalid = new DateTime(2022, 7, 4);  
+        DateTime invalidDate = new DateTime(2022, 7, 3);    
 
         [Test]
         public void ShouldCalculateTotal_WithReservation()
@@ -47,11 +47,11 @@ namespace DontWreckMyHouse.BLL.Tests
             reservation.Id = 3;
             reservation.StartDate = startDateValid;
             reservation.EndDate = endDateValid;
-            reservation.TotalCost = 900M;                   //host math
+            reservation.TotalCost = 900M;                  
             Host host = HostRepoDouble.HOST;
             reservation.Host = host;
             Guest guest = GuestRepoDouble.GUEST;
-            reservation.Guest = guest;      //could make guest 2
+            reservation.Guest = guest;      
 
             Result<Reservation> result = service.Create(reservation);
             Assert.IsTrue(result.Success);
@@ -145,7 +145,7 @@ namespace DontWreckMyHouse.BLL.Tests
             Assert.IsTrue(updatedResult.Success);
             Assert.NotNull(updatedResult.Value);
 
-            var updatedReservationById = service!.GetReservationById(updatedResult.Value);    //Reservation
+            var updatedReservationById = service!.GetReservationById(updatedResult.Value);   
             var reservations = service!.FindByHost(updatedReservation.Host);
             
             // TODO: Add more asserts for additional fields

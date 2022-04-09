@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using DontWreckMyHouse.BLL;
+﻿using DontWreckMyHouse.BLL;
 using DontWreckMyHouse.DAL;
 using DontWreckMyHouse.Core.Interfaces;
 using Ninject;
@@ -28,7 +22,6 @@ namespace DontWreckMyHouse.UI
             string hostFilePath = Path.Combine(projectDirectory, "Data", "hosts.csv");
 
             Kernel.Bind<IReservationRepo>().To<ReservationFileRepo>().WithConstructorArgument(reservationFileDirectory);
-            //Kernel.Bind<IReservationRepo>().To<ReservationFileRepoTests>
             Kernel.Bind<IHostRepo>().To<HostFileRepo>().WithConstructorArgument(hostFilePath);
             Kernel.Bind<IGuestRepo>().To<GuestFileRepo>().WithConstructorArgument(guestFilePath);
 

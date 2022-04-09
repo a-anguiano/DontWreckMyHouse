@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DontWreckMyHouse.Core.Interfaces;
-using DontWreckMyHouse.Core.Models;
+﻿using DontWreckMyHouse.Core.Interfaces;
 using DontWreckMyHouse.Core;
-using System.IO;
 using DontWreckMyHouse.Core.Exceptions;
 
 namespace DontWreckMyHouse.DAL
@@ -23,10 +16,10 @@ namespace DontWreckMyHouse.DAL
         {
             var hosts = new List<Host>();
 
-            //if (!File.Exists(path))
-            //{
-            //    return _reservations;           //return type....
-            //}
+            if (!File.Exists(filePath))
+            {
+                return hosts;
+            }
 
             string[] lines = null;
             try
@@ -38,7 +31,7 @@ namespace DontWreckMyHouse.DAL
                 throw new RepoExceptions("Could not read hosts.", ex);
             }
 
-            for (int i = 1; i < lines.Length; i++) // skip the header
+            for (int i = 1; i < lines.Length; i++) 
             {
                 string[] fields = lines[i].Split(",", StringSplitOptions.TrimEntries);
                 Host host = Deserialize(fields);
@@ -50,7 +43,37 @@ namespace DontWreckMyHouse.DAL
             return hosts;
         }
 
-        //Deserialize
+        public Host FindByPhone(string phone)
+        {
+            var hostCheck = new Host();
+
+            if (!File.Exists(filePath))
+            {
+                return hostCheck;
+            }
+
+            string[] lines = null;
+            try
+            {
+                lines = File.ReadAllLines("hosts.csv");
+            }
+            catch (IOException ex)
+            {
+                throw new RepoExceptions("Could not read hosts.", ex);
+            }
+
+            for (int i = 1; i < lines.Length; i++) 
+            {
+                string[] fields = lines[i].Split(",", StringSplitOptions.TrimEntries);
+                Host host = Deserialize(fields);
+                if (host != null && host.Phone == phone)
+                {
+                    return host;
+                }
+            }
+            return null;
+        }
+
         private Host Deserialize(string[] fields)
         {
             if (fields.Length != 10)
@@ -59,7 +82,7 @@ namespace DontWreckMyHouse.DAL
             }
 
             Host result = new Host();
-            result.Id = fields[0];          //guid
+            result.Id = fields[0];      
             result.LastName = fields[1];
             result.Email = fields[2];
             result.Phone = fields[3];
@@ -71,6 +94,5 @@ namespace DontWreckMyHouse.DAL
             result.WeekendRate = decimal.Parse(fields[9]);
             return result;
         }
-        //NOT ADDING SO NO NEED TO WRITE OR SERIALIZE
     }
 }

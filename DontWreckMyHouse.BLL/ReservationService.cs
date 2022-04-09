@@ -1,9 +1,6 @@
 ﻿using DontWreckMyHouse.Core.Models;
 using DontWreckMyHouse.Core;
 using DontWreckMyHouse.Core.Interfaces;
-using System.Linq;
-using System.Collections.Generic;
-using System;
 
 namespace DontWreckMyHouse.BLL
 {
@@ -20,11 +17,9 @@ namespace DontWreckMyHouse.BLL
             this.hostRepo = hostRepo;
         }
 
-        //FindAll()
-
-        public List<Reservation> FindByHost(Host host)      //only core, not model
+        public List<Reservation> FindByHost(Host host)     
         {
-            List<Reservation> result = reservationRepo.FindByHostID(host.Id);        //reservationFileRepo
+            List<Reservation> result = reservationRepo.FindByHostID(host.Id);       
             return result;
         }
 
@@ -46,7 +41,6 @@ namespace DontWreckMyHouse.BLL
 
         public decimal CalculateTotal(Reservation reservation)
         {
-            //Can we use linq?
             decimal total = 0;
             for (DateTime date = reservation.StartDate; date.Date <= reservation.EndDate; date = date.AddDays(1))
             {
@@ -76,9 +70,9 @@ namespace DontWreckMyHouse.BLL
             return result;
         }
 
-        public Result<Reservation> Edit(Reservation reservationToUpdate)         //bool?
+        public Result<Reservation> Edit(Reservation reservationToUpdate)       
         {
-            Result<Reservation> result = Validate(reservationToUpdate);     //edit controller needs to send in "new"
+            Result<Reservation> result = Validate(reservationToUpdate);    
             if (!result.Success)
             {
                 return result;
@@ -90,7 +84,7 @@ namespace DontWreckMyHouse.BLL
 
         public Result<Reservation> Cancel(Reservation reservationToDelete)
         {
-            Result<Reservation> result = ValidateForCancel(reservationToDelete); //may need to adjust for dates in the past?
+            Result<Reservation> result = ValidateForCancel(reservationToDelete); 
             if (!result.Success)
             {
                 return result;
@@ -199,7 +193,7 @@ namespace DontWreckMyHouse.BLL
                 result.AddMessage("Guest does not exist.");
             }
 
-            if (hostRepo.FindByState(reservation.Host.State) == null)        //host hmm, may need findbyid or phone!!!
+            if (hostRepo.FindByPhone(reservation.Host.Phone) == null)
             {
                 result.AddMessage("Host does not exist.");
             }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DontWreckMyHouse.Core.Models;
 using DontWreckMyHouse.Core.Interfaces;
 using DontWreckMyHouse.Core;
 
@@ -23,13 +19,18 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
         public HostRepoDouble()
         {
             hosts.Add(HOST);
-            //hosts.Add(HOST2);     DAL is to get the right states?
+            hosts.Add(HOST2);     //DAL is to get the right states????
             hosts.Add(HOST3);
         }
 
         public List<Host> FindByState(string stateAbbr)
         {
-            return new List<Host>(hosts);
+            return hosts.Where(h => h.State == stateAbbr).ToList();
+        }
+
+        public Host FindByPhone(string phone)
+        {
+            return hosts.First(h => h.Phone == phone);
         }
     }
 }

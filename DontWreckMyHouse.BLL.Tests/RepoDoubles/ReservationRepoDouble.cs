@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DontWreckMyHouse.Core.Models;
 using DontWreckMyHouse.Core.Interfaces;
 using DontWreckMyHouse.Core;
-using System.IO;
 
 namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
 {
@@ -25,7 +22,7 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
             reservation.Id = 1;
             reservation.StartDate = startDate;
             reservation.EndDate = endDate;
-            reservation.TotalCost = 200M;                   //look up
+            reservation.TotalCost = 200M;                  
             reservation.Host = HostRepoDouble.HOST;
             reservation.Guest = GuestRepoDouble.GUEST;
             reservations.Add(reservation);
@@ -40,7 +37,7 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
             reservations.Add(reservation1);
         }
 
-        public List<Reservation> FindByHostID(string hostId)    //check this one
+        public List<Reservation> FindByHostID(string hostId)    
         {
             Host host = new Host();
             host.Id = hostId;

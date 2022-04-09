@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DontWreckMyHouse.Core.Interfaces;
-using DontWreckMyHouse.Core;
+﻿using DontWreckMyHouse.Core.Interfaces;
 using DontWreckMyHouse.Core.Models;
-using System.IO;
 using DontWreckMyHouse.Core.Exceptions;
 
 namespace DontWreckMyHouse.DAL
@@ -20,8 +13,14 @@ namespace DontWreckMyHouse.DAL
             this.filePath = filePath;
         }
 
-        public Guest FindByPhone(string phone)        //string or int
+        public Guest FindByPhone(string phone)        
         {
+            var guestCheck = new Guest();
+            if (!File.Exists(filePath))
+            {
+                return guestCheck;
+            }
+
             string[] lines = null;
             try
             {
@@ -32,10 +31,10 @@ namespace DontWreckMyHouse.DAL
                 throw new RepoExceptions("Could not read guest.", ex);
             }
 
-            for (int i = 1; i < lines.Length; i++) // skip the header
+            for (int i = 1; i < lines.Length; i++) 
             {
                 string[] fields = lines[i].Split(",", StringSplitOptions.TrimEntries);
-                Guest guest = Deserialize(fields);      //, phone
+                Guest guest = Deserialize(fields);      
                 if (guest != null && guest.Phone == phone)
                 {
                     return guest;
@@ -44,18 +43,15 @@ namespace DontWreckMyHouse.DAL
             return null;
         }
 
-        //NOT ADDING SO NO NEED TO WRITE OR SERIALIZE
-        private Guest Deserialize(string[] fields)      //, string phone
+        private Guest Deserialize(string[] fields)     
         {
             if (fields.Length != 6)
             {
                 return null;
             }
 
-            //guest_id,first_name,last_name,email,phone,state
-
             Guest result = new Guest();
-            result.Id = fields[0];          //hmmm
+            result.Id = fields[0];          
             result.FirstName = fields[1];
             result.LastName = fields[2];
             result.Email = fields[3];

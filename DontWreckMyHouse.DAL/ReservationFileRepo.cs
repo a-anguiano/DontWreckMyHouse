@@ -16,15 +16,15 @@ namespace DontWreckMyHouse.DAL
             this.directory = directory;
         }
 
-        public List<Reservation> FindByHostID(string hostId)      //and Id?
+        public List<Reservation> FindByHostID(string hostId)  
         {
             var reservations = new List<Reservation>();
             var path = GetFilePath(hostId);
 
-            //if (!File.Exists(path))
-            //{
-            //    return _reservations;           //return type....
-            //}
+            if (!File.Exists(path))
+            {
+                return reservations;
+            }
 
             string[] lines = null;
             try
@@ -36,7 +36,7 @@ namespace DontWreckMyHouse.DAL
                 throw new RepoExceptions("Could not read reservations.", ex);
             }
 
-            for (int i = 1; i < lines.Length; i++) // skip the header
+            for (int i = 1; i < lines.Length; i++) 
             {
                 string[] fields = lines[i].Split(",", StringSplitOptions.TrimEntries);
                 Reservation reservation = Deserialize(fields, hostId);                
@@ -53,9 +53,9 @@ namespace DontWreckMyHouse.DAL
         }
     
 
-        public Reservation Create(Reservation reservation)      //two params?Host host
+        public Reservation Create(Reservation reservation)    
         {
-            List<Reservation> all = FindByHostID(reservation.Host.Id);  //altered
+            List<Reservation> all = FindByHostID(reservation.Host.Id);
 
             int nextId = (all.Count == 0 ? 0 : all.Max(i => i.Id)) + 1;
             reservation.Id = nextId;
@@ -65,9 +65,8 @@ namespace DontWreckMyHouse.DAL
             return reservation;
         }
 
-        public Reservation Edit(Reservation reservationToUpdate)         //bool?
+        public Reservation Edit(Reservation reservationToUpdate)        
         {
-            //var result = new Result<>
             List<Reservation> all = FindByHostID(reservationToUpdate.Host.Id);
             for (int i = 0; i < all.Count; i++)
             {
@@ -121,13 +120,13 @@ namespace DontWreckMyHouse.DAL
             }
 
             Reservation result = new Reservation();
-            result.Id = int.Parse(fields[0]);          //hmmm
+            result.Id = int.Parse(fields[0]);        
             result.StartDate = DateTime.Parse(fields[1]);
             result.EndDate = DateTime.Parse(fields[2]);
 
             Guest guest = new Guest();
             guest.Id = fields[3];
-            result.Guest = guest;                      //
+            result.Guest = guest;             
             result.TotalCost = decimal.Parse(fields[4]);
             return result;
         }

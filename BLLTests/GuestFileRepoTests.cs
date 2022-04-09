@@ -21,24 +21,20 @@ namespace DontWreckMyHouse.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            //if (File.Exists(LogFile)) File.Delete(LogFile);
+            
             if (!Directory.Exists(TEST_DIRECTORY))
             {
                 Directory.CreateDirectory(TEST_DIRECTORY);
             }
 
-            //if (File.Exists(TEST_FILE)) File.Delete(TEST_FILE);
-
             File.Copy(SEED_PATH, TEST_PATH, true);
 
-            _repo = new GuestFileRepo(TEST_PATH);       //test path
+            _repo = new GuestFileRepo(TEST_PATH);       
         }
 
         [Test]
         public void ShouldFindByPhone()
         {
-            //guest_id,first_name,last_name,email,phone,state
-            //7,Gilli,Fritz,gfritz6@ustream.tv,(585) 3812166,NY
             Guest guest = _repo.FindByPhone(phoneNum);
             Assert.AreEqual("7", guest.Id);               
             Assert.AreEqual("Gilli", guest.FirstName);

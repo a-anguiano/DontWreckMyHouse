@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using DontWreckMyHouse.BLL.Tests.RepoDoubles;
 using DontWreckMyHouse.Core;
 using NUnit.Framework;
@@ -11,16 +7,32 @@ namespace DontWreckMyHouse.BLL.Tests
 {
     public class HostServiceTests
     {
-        HostService service = new HostService(new HostRepoDouble());
-    }
+        private HostService service;
 
-    //id,last_name,email,phone,address,city,state,postal_code,standard_rate,weekend_rate
-    //anything to test??
-    //[Test]
-    //public void ShouldNotSaveNullName()
-    //{
-    //    Host host = new Host();
-    //    Result<Host> result = service.Add(host);
-    //    Assert.IsFalse(result.Success);
-    //}
+        [SetUp]
+        public void SetUp()
+        {
+            service = new HostService(new HostRepoDouble());
+        }
+
+        [Test]
+        public void ShouldFindHosts_WithState()
+        {
+            var actual = service.FindByState("TX");
+            List<Host> expectedHosts = new List<Host>();
+            expectedHosts.Add(HostRepoDouble.HOST);
+            expectedHosts.Add(HostRepoDouble.HOST3);
+
+            Assert.That(actual, Is.EquivalentTo(expectedHosts));
+        }
+
+        [Test]
+        public void ShouldFindHost_WithPhone()
+        {
+            var actual = service.FindByPhone("(713) 3421887");
+            Host expectedHost = HostRepoDouble.HOST3;
+
+            Assert.AreEqual(actual, expectedHost);
+        }
+    }
 }
