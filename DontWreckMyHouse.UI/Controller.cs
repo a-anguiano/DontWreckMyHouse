@@ -54,33 +54,18 @@ namespace DontWreckMyHouse.UI
                         MakeAReservation();
                         break;
                     case MainMenuOption.EditAReservation:
-                        view.DisplayStatus(false, "NOT IMPLEMENTED");
-                        view.EnterToContinue();
-                        //EditAReservation();
+                        EditAReservation();
                         break;
                     case MainMenuOption.CancelAReservation:
-                        view.DisplayStatus(false, "NOT IMPLEMENTED");
-                        view.EnterToContinue();
-                        //CancelAReservation();
+                        CancelAReservation();
                         break;
-                    //case MainMenuOption.Report1:
-                    //    view.DisplayStatus(false, "NOT IMPLEMENTED");
-                    //    view.EnterToContinue();
-                    //    break;
-                    //case MainMenuOption.Report2:
-                    //    view.DisplayStatus(false, "NOT IMPLEMENTED");
-                    //    view.EnterToContinue();
-                    //    break;
-                    //case MainMenuOption.Generate:
-                    //    Generate();
-                    //    break;
                 }
             } while (option != MainMenuOption.Exit);
         }
 
         private void ViewByHost()
         {
-            Host host = GetHost();
+            Host host = GetHosts();
             List<Reservation> reservations = reservationService.FindByHost(host);   //how to id
             view.DisplayReservations(reservations);
             view.EnterToContinue();
@@ -89,7 +74,7 @@ namespace DontWreckMyHouse.UI
         private void MakeAReservation()
         {
             view.DisplayHeader(MainMenuOption.MakeAReservation.ToLabel());
-            Host host = GetHost();
+            Host host = GetHosts();
             if (host == null)
             {
                 return;
@@ -109,6 +94,7 @@ namespace DontWreckMyHouse.UI
             decimal total = reservationService.CalculateTotal(reservation);
             reservation.TotalCost = total;
             reservation = view.MakeSummary(reservation);
+            //ok y or n
 
             Result<Reservation> result = reservationService.Create(reservation);
             if (!result.Success)
@@ -122,22 +108,80 @@ namespace DontWreckMyHouse.UI
             }
         }
 
-        //private void Generate()
-        //{
-        //    ReservationGenerationRequest request = view.GetReservationGenerationRequest();
-        //    if (request != null)
-        //    {
-        //        int count = reservationService.Generate(request.Start, request.End, request.Count);
-        //        view.DisplayStatus(true, $"{count} forages generated.");
-        //    }
-        //}
-        // support methods
+        private void EditAReservation()
+        {
+            Reservation res = new Reservation();
+            view.DisplayHeader(MainMenuOption.EditAReservation.ToLabel());
+            Host host = GetHost();
+            Guest guest = GetGuest();
+            Console.WriteLine($"Guest Email: {guest.Email}");
+            Console.WriteLine($"Host Email: {host.Email}\n");
 
+            view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
+            List<Reservation> reservations = reservationService.FindReservationsForHostAndGuest(host, guest);
+            view.DisplayReservations(reservations);
 
+            int id = view.GetReservationId();
+            res.Id = id;
+            Reservation reservation = reservationService.GetReservationById(res);
 
-        //Get Guest
+            view.DisplayHeader($"Editing Reservation {id}");
+            var newStart = view.GetNewDate("Start", reservation.StartDate);
+            var newEnd = view.GetNewDate("End", reservation.EndDate);
 
-        private Host GetHost()
+            if(newStart != null)
+            {
+                reservation.StartDate = newStart;
+            }
+            if(newEnd != null)
+            {
+                reservation.EndDate = newEnd;
+            }
+            Reservation editedRes = view.MakeSummary(reservation);
+            //ok y or n
+
+            Result<Reservation> result = reservationService.Edit(editedRes);
+            if (!result.Success)
+            {
+                view.DisplayStatus(false, result.Messages);
+            }
+            else
+            {
+                string successMessage = $"Reservation {result.Value.Id} updated.";
+                view.DisplayStatus(true, successMessage);
+            }
+        }
+
+        private void CancelAReservation()
+        {
+            Reservation res = new Reservation();
+            view.DisplayHeader(MainMenuOption.CancelAReservation.ToLabel());
+            Host host = GetHost();
+            Guest guest = GetGuest();
+            Console.WriteLine($"Guest Email: {guest.Email}");
+            Console.WriteLine($"Host Email: {host.Email}\n");
+
+            view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
+            List<Reservation> reservations = reservationService.FindReservationsForHostAndGuest(host, guest);
+            view.DisplayReservations(reservations);
+
+            int id = view.GetReservationId();
+            res.Id = id;
+            Reservation reservation = reservationService.GetReservationById(res);
+
+            Result<Reservation> result = reservationService.Cancel(reservation);
+            if (!result.Success)
+            {
+                view.DisplayStatus(false, result.Messages);
+            }
+            else
+            {
+                string successMessage = $"Reservation {result.Value.Id} cancelled.";
+                view.DisplayStatus(true, successMessage);
+            }
+        }
+
+        private Host GetHosts()
         {
             string stateAbbr = view.GetHostState();
             List<Host> hosts = hostService.FindByState(stateAbbr);
@@ -149,6 +193,11 @@ namespace DontWreckMyHouse.UI
             string phoneNum = view.GetGuestPhone();
             return guestService.FindByPhone(phoneNum);
         }
-    }
 
+        private Host GetHost()
+        {
+            string phone = view.GetHostPhone();
+            return hostService.FindByPhone(phone);
+        }
+    }
 }

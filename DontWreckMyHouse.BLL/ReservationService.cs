@@ -20,9 +20,19 @@ namespace DontWreckMyHouse.BLL
             this.hostRepo = hostRepo;
         }
 
+        //FindAll()
+
         public List<Reservation> FindByHost(Host host)      //only core, not model
         {
             List<Reservation> result = reservationRepo.FindByHostID(host.Id);        //reservationFileRepo
+            return result;
+        }
+
+        public List<Reservation> FindReservationsForHostAndGuest(Host host, Guest guest)
+        {
+            List<Reservation> reservations = reservationRepo.FindByHostID(host.Id);
+
+            var result = reservations.Where(r => r.Guest.Phone == guest.Phone).ToList();
             return result;
         }
 

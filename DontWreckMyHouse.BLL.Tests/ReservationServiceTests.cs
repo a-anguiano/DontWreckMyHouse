@@ -130,7 +130,6 @@ namespace DontWreckMyHouse.BLL.Tests
         {
             Host host = HostRepoDouble.HOST;
             Guest guest = GuestRepoDouble.GUEST;
-            //id,start_date,end_date,guest_id,total
             var updatedReservation = new Reservation
             {
                 Id = 1,

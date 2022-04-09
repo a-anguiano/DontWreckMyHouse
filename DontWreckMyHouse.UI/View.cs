@@ -40,9 +40,25 @@ namespace DontWreckMyHouse.UI
             return io.ReadRequiredString("Enter state initials: "); //special consoleIO?
         }
 
+        public string GetHostPhone()
+        {
+            return io.ReadRequiredString("Enter host phone number: ");
+        }
+
         public string GetGuestPhone()
         {
             return io.ReadRequiredString("Enter guest phone number: "); //special consoleIO?
+        }
+
+        public int GetReservationId()
+        {
+            return io.ReadInt("Reservation ID: ");
+        }
+
+        public DateTime GetNewDate(string type, DateTime date)
+        {
+            var result = io.ReadDate($"{type} ({date}): ");
+            return result;
         }
 
         //Choose ___ if a list, only show a certain number before ask to refine search
@@ -89,7 +105,6 @@ namespace DontWreckMyHouse.UI
 
         public Reservation MakeSummary(Reservation reservation)
         {
-
             DisplayHeader("Summary");
             DisplaySummary(reservation);
             bool response = io.ReadBool("Is this okay? [y/n]: ");     //need validation, char y or n

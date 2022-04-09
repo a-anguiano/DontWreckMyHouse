@@ -21,5 +21,10 @@ namespace DontWreckMyHouse.BLL
         {
             return repository.FindByState(stateAbbr);
         }
+
+        public Host FindByPhone(string phone)
+        {
+            return repository.FindByPhone(phone);
+        }
     }
 }

@@ -85,7 +85,6 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
                     continue;
                 }
                 reservations.RemoveAt(i);
-                //all.RemoveAt(i);
                 return reservation;
             }
             return reservation;

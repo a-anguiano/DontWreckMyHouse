@@ -8,7 +8,7 @@ namespace DontWreckMyHouse.Core.Interfaces
 {
     public interface IHostRepo
     {
-        //FindBy
+        Host FindByPhone(string phone);
     
         //Find by specific, or find through a list?
         //ex. for giving admin list to choose from would be 
