@@ -73,7 +73,7 @@ namespace DontWreckMyHouse.UI
             int index = 1;
             foreach (Host host in hosts.Take(25))
             {
-                io.PrintLine($"ID: {index++}, City: {host.City}, Standard Rate: {host.StandardRate}, Weekend Rate: {host.WeekendRate}");
+                io.PrintLine($"ID: {index++}, City: {host.City}, Standard Rate: {host.StandardRate:c}, Weekend Rate: {host.WeekendRate:c}");
             }
             index--;
 

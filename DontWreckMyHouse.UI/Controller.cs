@@ -183,10 +183,13 @@ namespace DontWreckMyHouse.UI
 
             view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
             List<Reservation> reservations = reservationService.FindReservationsForHostAndGuest(host, guest);
-            view.DisplayReservations(reservations);
+
+            List<Reservation> orderedRes = GetGuestPropertyAndOrderReservationsByStartDate(reservations);
+            view.DisplayReservations(orderedRes);
 
             int id = view.GetReservationId();
             res.Id = id;
+            res.Host = host;
             Reservation reservation = reservationService.GetReservationById(res);
 
             Result<Reservation> result = reservationService.Cancel(reservation);

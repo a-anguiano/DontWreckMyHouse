@@ -83,11 +83,12 @@ namespace DontWreckMyHouse.BLL
 
         public Result<Reservation> Cancel(Reservation reservationToDelete)
         {
-            Result<Reservation> result = ValidateForCancel(reservationToDelete); 
-            if (!result.Success)
-            {
-                return result;
-            }
+            var result = new Result<Reservation>();
+            //Result<Reservation> result = ValidateForCancel(reservationToDelete); 
+            //if (!result.Success)
+            //{
+            //    return result;
+            //}
 
             result.Value = reservationRepo.Cancel(reservationToDelete);
 
@@ -155,24 +156,24 @@ namespace DontWreckMyHouse.BLL
             return result;
         }
 
-        private Result<Reservation> ValidateForCancel(Reservation reservation)
-        {
-            var result = new Result<Reservation>();
-            ValidateNulls(reservation, result); //Result<Reservation> result = 
-            if (!result.Success)
-            {
-                return result;
-            }
+        //private Result<Reservation> ValidateForCancel(Reservation reservation)
+        //{
+        //    var result = new Result<Reservation>();
+        //    ValidateNulls(reservation, result); //Result<Reservation> result = 
+        //    if (!result.Success)
+        //    {
+        //        return result;
+        //    }
 
-            ValidateFields(reservation, result);
-            if (!result.Success)
-            {
-                return result;
-            }
+        //    ValidateFields(reservation, result);
+        //    if (!result.Success)
+        //    {
+        //        return result;
+        //    }
 
-            ValidateChildrenExist(reservation, result);
-            return result;
-        }
+        //    ValidateChildrenExist(reservation, result);
+        //    return result;
+        //}
 
         private Result<Reservation> ValidateNulls(Reservation reservation, Result<Reservation> result)
         {
