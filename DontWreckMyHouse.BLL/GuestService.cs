@@ -15,5 +15,17 @@ namespace DontWreckMyHouse.BLL
         {
             return repository.FindByPhone(phone);
         }
+
+        public List<Guest> FindById(List<Reservation> reservations)
+        {
+            List<Guest> guests = new List<Guest>();
+            foreach(Reservation reservation in reservations)
+            {
+                Guest guest = repository.FindById(reservation.Guest.Id);
+                guests.Add(guest);
+            }
+
+            return guests;
+        }
     }
 }

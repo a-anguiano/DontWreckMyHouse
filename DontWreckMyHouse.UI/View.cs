@@ -32,7 +32,12 @@ namespace DontWreckMyHouse.UI
 
         public string GetHostState()
         {
-            return io.ReadRequiredString("Enter state initials: "); //special consoleIO?
+            return io.ReadRequiredString("Enter host state initials: "); //special consoleIO?
+        }
+
+        public string GetHostCity()
+        {
+            return io.ReadRequiredString("Enter host city: ");
         }
 
         public string GetHostPhone()
@@ -68,15 +73,10 @@ namespace DontWreckMyHouse.UI
             int index = 1;
             foreach (Host host in hosts.Take(25))
             {
-                io.PrintLine($"{index++}: City: {host.City} Standard Rate: {host.StandardRate} Weekend Rate: {host.WeekendRate}");
+                io.PrintLine($"ID: {index++}, City: {host.City}, Standard Rate: {host.StandardRate}, Weekend Rate: {host.WeekendRate}");
             }
             index--;
 
-            if (hosts.Count > 25)
-            {
-                io.PrintLine("More than 25 hosts found. Showing first 25. Please refine your search.");
-            }
-            io.PrintLine("0: Exit");
             string message = $"Select a host by their index [0-{index}]: ";
 
             index = io.ReadInt(message, 0, index);
@@ -91,7 +91,7 @@ namespace DontWreckMyHouse.UI
         {
             Reservation reservation = new Reservation();
             
-            DisplayReservations(reservations);
+            //DisplayReservations(reservations);
             reservation.StartDate = io.ReadDate("Start date [MM/dd/yyyy]: ");
             reservation.EndDate = io.ReadDate("End date [MM/dd/yyyy]: ");
 
@@ -148,7 +148,7 @@ namespace DontWreckMyHouse.UI
             }
         }
 
-        public void DisplayReservations(List<Reservation> reservations)
+        public void DisplayReservations(List<Reservation> reservations) //, List<Guest> guests
         {
             if (reservations == null || reservations.Count == 0)
             {
@@ -157,12 +157,11 @@ namespace DontWreckMyHouse.UI
             }
 
             foreach (Reservation reservation in reservations)
-            {
-                io.PrintLine(
-                    string.Format("ID: {0}, {1} - {2}, Guest: {3}, {4}, {5} ",  
+            {                                     
+            io.PrintLine(string.Format("ID: {0}, {1} - {2}, Guest: {3}, {4}, Email: {5}",       //need sameline
                         reservation.Id,
-                        reservation.StartDate,
-                        reservation.EndDate,
+                        reservation.StartDate.ToString("d"),
+                        reservation.EndDate.ToString("d"),
                         reservation.Guest.FirstName,
                         reservation.Guest.LastName,
                         reservation.Guest.Email));

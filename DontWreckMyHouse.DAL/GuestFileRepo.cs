@@ -13,6 +13,36 @@ namespace DontWreckMyHouse.DAL
             this.filePath = filePath;
         }
 
+        public Guest FindById(string id)
+        {
+            var guestCheck = new Guest();
+            if (!File.Exists(filePath))
+            {
+                return guestCheck;
+            }
+
+            string[] lines = null;
+            try
+            {
+                lines = File.ReadAllLines(filePath);
+            }
+            catch (IOException ex)
+            {
+                throw new RepoExceptions("Could not read guest.", ex);
+            }
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string[] fields = lines[i].Split(",", StringSplitOptions.TrimEntries);
+                Guest guest = Deserialize(fields);
+                if (guest != null && guest.Id == id)
+                {
+                    return guest;
+                }
+            }
+            return null;
+        }
+
         public Guest FindByPhone(string phone)        
         {
             var guestCheck = new Guest();
@@ -24,7 +54,7 @@ namespace DontWreckMyHouse.DAL
             string[] lines = null;
             try
             {
-                lines = File.ReadAllLines("guests.csv");
+                lines = File.ReadAllLines(filePath);
             }
             catch (IOException ex)
             {

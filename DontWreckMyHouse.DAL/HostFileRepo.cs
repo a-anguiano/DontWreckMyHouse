@@ -24,7 +24,7 @@ namespace DontWreckMyHouse.DAL
             string[] lines = null;
             try
             {
-                lines = File.ReadAllLines("hosts.csv");
+                lines = File.ReadAllLines(filePath);
             }
             catch (IOException ex)
             {
@@ -55,7 +55,7 @@ namespace DontWreckMyHouse.DAL
             string[] lines = null;
             try
             {
-                lines = File.ReadAllLines("hosts.csv");
+                lines = File.ReadAllLines(filePath);
             }
             catch (IOException ex)
             {

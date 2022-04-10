@@ -5,5 +5,6 @@ namespace DontWreckMyHouse.Core.Interfaces
     public interface IGuestRepo
     {
         Guest FindByPhone(string phone);       
+        Guest FindById(string id);
     }
 }

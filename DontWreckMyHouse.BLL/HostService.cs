@@ -17,6 +17,14 @@ namespace DontWreckMyHouse.BLL
             return repository.FindByState(stateAbbr);
         }
 
+        public List<Host> FindByCity(string stateAbbr, string city)
+        {
+            var hostsByState = repository.FindByState(stateAbbr);
+            var ret = hostsByState.Where(h => h.City == city)
+                .OrderBy(h => h.City).ToList();      //alphabetical for now
+            return ret;
+        }
+
         public Host FindByPhone(string phone)
         {
             return repository.FindByPhone(phone);

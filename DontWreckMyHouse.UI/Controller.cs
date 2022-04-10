@@ -60,9 +60,19 @@ namespace DontWreckMyHouse.UI
 
         private void ViewByHost()
         {
+            view.DisplayHeader(MainMenuOption.ViewReservationsForAHost.ToLabel());
             Host host = GetHosts();
+            view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
             List<Reservation> reservations = reservationService.FindByHost(host);   //how to id
-            view.DisplayReservations(reservations);
+            
+            List<Guest> guests = guestService.FindById(reservations); 
+            
+            for(int i = 0; i < guests.Count; i++)
+            {
+                reservations[i].Guest = guests[i];
+            }
+            
+            view.DisplayReservations(reservations);//param guests
             view.EnterToContinue();
         }
 
@@ -114,7 +124,7 @@ namespace DontWreckMyHouse.UI
 
             view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
             List<Reservation> reservations = reservationService.FindReservationsForHostAndGuest(host, guest);
-            view.DisplayReservations(reservations);
+            //view.DisplayReservations(reservations, guests);
 
             int id = view.GetReservationId();
             res.Id = id;
@@ -158,7 +168,7 @@ namespace DontWreckMyHouse.UI
 
             view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
             List<Reservation> reservations = reservationService.FindReservationsForHostAndGuest(host, guest);
-            view.DisplayReservations(reservations);
+            //view.DisplayReservations(reservations);
 
             int id = view.GetReservationId();
             res.Id = id;
@@ -180,7 +190,16 @@ namespace DontWreckMyHouse.UI
         {
             string stateAbbr = view.GetHostState();
             List<Host> hosts = hostService.FindByState(stateAbbr);
-            return view.ChooseHost(hosts);
+            if (hosts.Count > 25)
+            {
+                string city = view.GetHostCity();
+                List<Host> hostsRefined = hostService.FindByCity(stateAbbr, city);
+                return view.ChooseHost(hosts);
+            }
+            else
+            {
+                return view.ChooseHost(hosts);
+            }
         }
 
         private Guest GetGuest()
