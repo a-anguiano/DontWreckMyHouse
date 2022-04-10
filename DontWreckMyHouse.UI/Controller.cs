@@ -64,16 +64,10 @@ namespace DontWreckMyHouse.UI
             view.DisplayHeader(MainMenuOption.ViewReservationsForAHost.ToLabel());
             Host host = GetHosts();
             view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
-            List<Reservation> reservations = reservationService.FindByHost(host);   
-            
-            List<Guest> guests = guestService.FindById(reservations); 
-            
-            for(int i = 0; i < guests.Count; i++)
-            {
-                reservations[i].Guest = guests[i];
-            }
-           
-            view.DisplayReservations(reservations.OrderBy(r => r.StartDate).ToList());
+            List<Reservation> reservations = reservationService.FindByHost(host);
+            List<Reservation> orderedRes = GetGuestPropertyAndOrderReservationsByStartDate(reservations);
+
+            view.DisplayReservations(orderedRes);
             view.EnterToContinue();
         }
 
@@ -91,16 +85,22 @@ namespace DontWreckMyHouse.UI
                 return;
             }
 
+            view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
             List<Reservation> reservations = reservationService.FindByHost(host);
-            Reservation reservation = view.MakeReservation(reservations);
+            List<Reservation> orderedRes = GetGuestPropertyAndOrderReservationsByStartDate(reservations);
+
+            Reservation reservation = view.MakeReservation(orderedRes);
             reservation.Host = host;
             reservation.Guest = guest;
-
 
             decimal total = reservationService.CalculateTotal(reservation);
             reservation.TotalCost = total;
             reservation = view.MakeSummary(reservation);
-            //ok y or n
+
+            if (reservation == null)
+            {
+                return; //returns to main menu
+            }
 
             Result<Reservation> result = reservationService.Create(reservation);
             if (!result.Success)
@@ -136,11 +136,11 @@ namespace DontWreckMyHouse.UI
             var newStart = view.GetNewDate("Start", reservation.StartDate);
             var newEnd = view.GetNewDate("End", reservation.EndDate);
 
-            if(newStart != null)
+            if (newStart != null)
             {
                 reservation.StartDate = newStart;
             }
-            if(newEnd != null)
+            if (newEnd != null)
             {
                 reservation.EndDate = newEnd;
             }
@@ -214,6 +214,17 @@ namespace DontWreckMyHouse.UI
         {
             string phone = view.GetHostPhone();
             return hostService.FindByPhone(phone);
+        }
+
+        private List<Reservation> GetGuestPropertyAndOrderReservationsByStartDate(List<Reservation> reservations)
+        {
+            List<Guest> guests = guestService.FindById(reservations); 
+            
+            for(int i = 0; i<guests.Count; i++)
+            {
+                reservations[i].Guest = guests[i];
+            }
+            return reservations.OrderBy(r => r.StartDate).ToList();
         }
     }
 }

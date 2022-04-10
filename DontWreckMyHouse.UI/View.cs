@@ -91,7 +91,7 @@ namespace DontWreckMyHouse.UI
         {
             Reservation reservation = new Reservation();
             
-            //DisplayReservations(reservations);
+            DisplayReservations(reservations);
             reservation.StartDate = io.ReadDate("Start date [MM/dd/yyyy]: ");
             reservation.EndDate = io.ReadDate("End date [MM/dd/yyyy]: ");
 
@@ -111,8 +111,6 @@ namespace DontWreckMyHouse.UI
             {
                 return null;
             }
-            //check if ok
-            //if not, do not create/make
         }
 
         public void EnterToContinue()
@@ -148,7 +146,7 @@ namespace DontWreckMyHouse.UI
             }
         }
 
-        public void DisplayReservations(List<Reservation> reservations) //, List<Guest> guests
+        public void DisplayReservations(List<Reservation> reservations) 
         {
             if (reservations == null || reservations.Count == 0)
             {
@@ -158,7 +156,7 @@ namespace DontWreckMyHouse.UI
 
             foreach (Reservation reservation in reservations)
             {                                     
-            io.PrintLine(string.Format("ID: {0}, {1} - {2}, Guest: {3}, {4}, Email: {5}",       //need sameline
+            io.PrintLine(string.Format("ID: {0}, {1} - {2}, Guest: {3}, {4}, Email: {5}",  
                         reservation.Id,
                         reservation.StartDate.ToString("d"),
                         reservation.EndDate.ToString("d"),
@@ -171,7 +169,7 @@ namespace DontWreckMyHouse.UI
         public void DisplaySummary (Reservation reservation)
         {
                 io.PrintLine(
-                    string.Format("Start: {0}\nEnd: {1}\nTotal: ${2:0.00}",
+                    string.Format("Start: {0:d}\nEnd: {1:d}\nTotal: ${2:0.00}",
                         reservation.StartDate,
                         reservation.EndDate,
                         reservation.TotalCost));
