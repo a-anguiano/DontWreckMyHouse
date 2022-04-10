@@ -126,6 +126,74 @@ namespace DontWreckMyHouse.BLL.Tests
         }
 
         [Test]
+        public void ShouldNotCreateWhenStartDateIsAfterEndDate()
+        {
+            Reservation reservation = new Reservation();
+            reservation.Id = 3;
+            reservation.StartDate = endDateValid;
+            reservation.EndDate = startDateValid;
+            reservation.TotalCost = 900M;
+            Host host = HostRepoDouble.HOST;
+            reservation.Host = host;
+            Guest guest = GuestRepoDouble.GUEST;
+            reservation.Guest = guest;
+
+            Result<Reservation> result = service.Create(reservation);
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
+        public void ShouldNotCreateWhenStartDateIsNotInTheFuture()
+        {
+            Reservation reservation = new Reservation();
+            reservation.Id = 3;
+            reservation.StartDate = startDateValid.AddYears(-1);
+            reservation.EndDate = endDateValid;
+            reservation.TotalCost = 900M;
+            Host host = HostRepoDouble.HOST;
+            reservation.Host = host;
+            Guest guest = GuestRepoDouble.GUEST;
+            reservation.Guest = guest;
+
+            Result<Reservation> result = service.Create(reservation);
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
+        public void ShouldNotCreateWhenGuestIsNull()
+        {
+            Reservation reservation = new Reservation();
+            reservation.Id = 3;
+            reservation.StartDate = startDateValid.AddYears(-1);
+            reservation.EndDate = endDateValid;
+            reservation.TotalCost = 900M;
+            Host host = HostRepoDouble.HOST;
+            reservation.Host = host;
+            Guest guest = null;
+            reservation.Guest = guest;
+
+            Result<Reservation> result = service.Create(reservation);
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
+        public void ShouldNotCreateWhenHostIsNull()
+        {
+            Reservation reservation = new Reservation();
+            reservation.Id = 3;
+            reservation.StartDate = startDateValid.AddYears(-1);
+            reservation.EndDate = endDateValid;
+            reservation.TotalCost = 900M;
+            Host host = null;
+            reservation.Host = host;
+            Guest guest = GuestRepoDouble.GUEST;
+            reservation.Guest = guest;
+
+            Result<Reservation> result = service.Create(reservation);
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
         public void ShouldEdit_ReturnsEditedReservationWithoutChangingAnythingButStartOrEndDate()
         {
             Host host = HostRepoDouble.HOST;
@@ -174,6 +242,28 @@ namespace DontWreckMyHouse.BLL.Tests
             var reservations = service.FindByHost(reservation1.Host);
 
             Assert.AreEqual(1, reservations.Count);                       
+        }
+
+        [Test]
+        public void ShouldNotCancel()
+        {
+            DateTime startDate1 = new DateTime(2021, 7, 2);
+            DateTime endDate1 = new DateTime(2022, 7, 4);
+
+            Reservation reservation1 = new Reservation();
+            reservation1.Id = 2;
+            reservation1.StartDate = startDate1;
+            reservation1.EndDate = endDate1;
+            reservation1.TotalCost = 250M;
+            reservation1.Host = HostRepoDouble.HOST;
+            reservation1.Guest = GuestRepoDouble.GUEST;
+
+            var deleteResult = service!.Cancel(reservation1);
+            Assert.IsFalse(deleteResult.Success);
+
+            var reservations = service.FindByHost(reservation1.Host);
+
+            Assert.AreEqual(2, reservations.Count);
         }
     }
 }

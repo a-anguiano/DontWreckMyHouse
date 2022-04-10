@@ -63,6 +63,10 @@ namespace DontWreckMyHouse.UI
         {
             view.DisplayHeader(MainMenuOption.ViewReservationsForAHost.ToLabel());
             Host host = GetHosts();
+            if (host == null)
+            {
+                return;
+            }
             view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
             List<Reservation> reservations = reservationService.FindByHost(host);
             List<Reservation> orderedRes = GetGuestPropertyAndOrderReservationsByStartDate(reservations);
@@ -82,14 +86,16 @@ namespace DontWreckMyHouse.UI
             Guest guest = GetGuest();
             if (guest == null)
             {
+                Console.WriteLine("Guest not found");
                 return;
             }
 
             view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
             List<Reservation> reservations = reservationService.FindByHost(host);
             List<Reservation> orderedRes = GetGuestPropertyAndOrderReservationsByStartDate(reservations);
+            List<Reservation> futureOrderedRes = orderedRes.Where(r => r.StartDate >= DateTime.Today).ToList();
 
-            Reservation reservation = view.MakeReservation(orderedRes);
+            Reservation reservation = view.MakeReservation(futureOrderedRes);
             reservation.Host = host;
             reservation.Guest = guest;
 
@@ -119,7 +125,17 @@ namespace DontWreckMyHouse.UI
             Reservation res = new Reservation();
             view.DisplayHeader(MainMenuOption.EditAReservation.ToLabel());
             Host host = GetHost();
+            if (host == null)
+            {
+                Console.WriteLine("Host not found.");
+                return;
+            }
             Guest guest = GetGuest();
+            if (guest == null)
+            {
+                Console.WriteLine("Guest not found");
+                return;
+            }
             Console.WriteLine($"Guest Email: {guest.Email}");
             Console.WriteLine($"Host Email: {host.Email}\n");
 
@@ -185,7 +201,8 @@ namespace DontWreckMyHouse.UI
             List<Reservation> reservations = reservationService.FindReservationsForHostAndGuest(host, guest);
 
             List<Reservation> orderedRes = GetGuestPropertyAndOrderReservationsByStartDate(reservations);
-            view.DisplayReservations(orderedRes);
+            List<Reservation> futureOrderedRes = orderedRes.Where(r => r.StartDate >= DateTime.Today).ToList();
+            view.DisplayReservations(futureOrderedRes);
 
             int id = view.GetReservationId();
             res.Id = id;

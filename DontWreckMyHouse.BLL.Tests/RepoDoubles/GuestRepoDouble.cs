@@ -22,6 +22,10 @@ namespace DontWreckMyHouse.BLL.Tests.RepoDoubles
         //}
 
         //DAL take cares of finding phone
+        public Guest FindById(string id)
+        {
+            return GUEST;
+        }
 
         public Guest FindByPhone(string phone)
         {

@@ -26,7 +26,7 @@ namespace DontWreckMyHouse.UI
                 max = Math.Max(max, i);
             }
 
-            string message = $"Select [{min}-{max - 1}]: ";
+            string message = $"Select [{min}-{max}]: "; //?
             return options[io.ReadInt(message, min, max)];
         }
 
@@ -61,7 +61,6 @@ namespace DontWreckMyHouse.UI
             return result;
         }
 
-        //Choose ___ if a list, only show a certain number before ask to refine search
         public Host ChooseHost(List<Host> hosts)
         {
             if (hosts == null || hosts.Count == 0)
