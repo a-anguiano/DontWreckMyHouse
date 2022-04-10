@@ -27,8 +27,7 @@ namespace DontWreckMyHouse.BLL
         {
             List<Reservation> reservations = reservationRepo.FindByHostID(host.Id);
 
-            var result = reservations.Where(r => r.Guest.Phone == guest.Phone).ToList();
-            return result;
+            return reservations.Where(r => r.Guest.Id == guest.Id).ToList();
         }
 
         public Reservation GetReservationById(Reservation reservation)
@@ -188,12 +187,12 @@ namespace DontWreckMyHouse.BLL
 
         private void ValidateChildrenExist(Reservation reservation, Result<Reservation> result)
         {
-            if (guestRepo.FindByPhone(reservation.Guest.Phone) == null)
+            if (guestRepo.FindById(reservation.Guest.Id) == null)
             {
                 result.AddMessage("Guest does not exist.");
             }
 
-            if (hostRepo.FindByPhone(reservation.Host.Phone) == null)
+            if (hostRepo.FindByPhone(reservation.Host.Phone) == null)   //by id?
             {
                 result.AddMessage("Host does not exist.");
             }
