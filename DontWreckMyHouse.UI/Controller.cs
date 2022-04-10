@@ -126,26 +126,39 @@ namespace DontWreckMyHouse.UI
             view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
             List<Reservation> reservations = reservationService.FindReservationsForHostAndGuest(host, guest);
 
-            view.DisplayReservations(reservations);
+            List<Reservation> orderedRes = GetGuestPropertyAndOrderReservationsByStartDate(reservations);
+            view.DisplayReservations(orderedRes);
 
             int id = view.GetReservationId();
             res.Id = id;
+            res.Host = host;
             Reservation reservation = reservationService.GetReservationById(res);
 
             view.DisplayHeader($"Editing Reservation {id}");
             var newStart = view.GetNewDate("Start", reservation.StartDate);
             var newEnd = view.GetNewDate("End", reservation.EndDate);
 
-            if (newStart != null)
+            if (!String.IsNullOrEmpty(newStart))
             {
-                reservation.StartDate = newStart;
+                reservation.StartDate = DateTime.Parse(newStart);
             }
-            if (newEnd != null)
+            else
             {
-                reservation.EndDate = newEnd;
+                reservation.StartDate = reservation.StartDate;
+            }
+            if (!String.IsNullOrEmpty(newEnd))
+            {
+                reservation.EndDate = DateTime.Parse(newEnd);
+            }
+            else
+            {
+                reservation.EndDate = reservation.EndDate;
             }
             Reservation editedRes = view.MakeSummary(reservation);
-            //ok y or n
+            if (editedRes == null)
+            {
+                return; //returns to main menu
+            }
 
             Result<Reservation> result = reservationService.Edit(editedRes);
             if (!result.Success)

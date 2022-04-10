@@ -14,14 +14,14 @@ namespace DontWreckMyHouse.BLL
 
         public List<Host> FindByState(string stateAbbr)
         {
-            return repository.FindByState(stateAbbr);
+            return repository.FindByState(stateAbbr)
+                .OrderBy(h => h.City).ToList();      //alphabetical for now
         }
 
         public List<Host> FindByCity(string stateAbbr, string city)
         {
             var hostsByState = repository.FindByState(stateAbbr);
-            var ret = hostsByState.Where(h => h.City == city)
-                .OrderBy(h => h.City).ToList();      //alphabetical for now
+            var ret = hostsByState.Where(h => h.City == city).ToList();
             return ret;
         }
 

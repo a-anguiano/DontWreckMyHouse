@@ -55,9 +55,9 @@ namespace DontWreckMyHouse.UI
             return io.ReadInt("Reservation ID: ");
         }
 
-        public DateTime GetNewDate(string type, DateTime date)
+        public string GetNewDate(string type, DateTime date)
         {
-            var result = io.ReadDate($"{type} ({date}): ");
+            var result = io.ReadString($"{type} ({date:d}): ");
             return result;
         }
 

@@ -30,9 +30,9 @@ namespace DontWreckMyHouse.BLL
             return reservations.Where(r => r.Guest.Id == guest.Id).ToList();
         }
 
-        public Reservation GetReservationById(Reservation reservation)
+        public Reservation GetReservationById(Reservation reservation)      //By host id
         {
-            List<Reservation> reservations = reservationRepo.FindByHostID(reservation.Host.Id);
+            List<Reservation> reservations = reservationRepo.FindByHostID(reservation.Host.Id); //HERE
 
             var result = reservations.First(r => r.Id == reservation.Id);
             return result;
@@ -71,7 +71,7 @@ namespace DontWreckMyHouse.BLL
 
         public Result<Reservation> Edit(Reservation reservationToUpdate)       
         {
-            Result<Reservation> result = Validate(reservationToUpdate);    
+            Result<Reservation> result = ValidateForEdit(reservationToUpdate);    
             if (!result.Success)
             {
                 return result;
@@ -96,7 +96,8 @@ namespace DontWreckMyHouse.BLL
 
         private Result<Reservation> Validate(Reservation reservation) 
         {
-            Result<Reservation> result = ValidateNulls(reservation);
+            var result = new Result<Reservation>();
+            ValidateNulls(reservation, result); //Result<Reservation> result = 
             if (!result.Success)
             {
                 return result;
@@ -114,7 +115,7 @@ namespace DontWreckMyHouse.BLL
                 return result;
             }
             
-            ValidateNoOverlap(reservation, result);
+            ValidateNoOverlap(reservation, result); //except the one editing
             return result;
         }
 
@@ -129,9 +130,35 @@ namespace DontWreckMyHouse.BLL
             }
         }
 
+        private void ValidateNoOverlapForEdit(Reservation reservation, Result<Reservation> result)
+        {
+            List<Reservation> reservations = reservationRepo.FindByHostID(reservation.Host.Id);
+
+            if (reservations.Where(r => r.Id != reservation.Id).Any(r => r.StartDate >= reservation.StartDate && r.StartDate <= reservation.EndDate
+            || r.EndDate >= reservation.StartDate && r.EndDate <= reservation.EndDate))
+            {
+                result.AddMessage("Cannot enter an overlapping date");
+            }
+        }
+
+        private Result<Reservation> ValidateForEdit(Reservation reservation)
+        {
+            var result = new Result<Reservation>();
+
+            ValidateFields(reservation, result);
+            if (!result.Success)
+            {
+                return result;
+            }
+
+            ValidateNoOverlapForEdit(reservation, result);
+            return result;
+        }
+
         private Result<Reservation> ValidateForCancel(Reservation reservation)
         {
-            Result<Reservation> result = ValidateNulls(reservation);
+            var result = new Result<Reservation>();
+            ValidateNulls(reservation, result); //Result<Reservation> result = 
             if (!result.Success)
             {
                 return result;
@@ -147,9 +174,9 @@ namespace DontWreckMyHouse.BLL
             return result;
         }
 
-        private Result<Reservation> ValidateNulls(Reservation reservation)
+        private Result<Reservation> ValidateNulls(Reservation reservation, Result<Reservation> result)
         {
-            var result = new Result<Reservation>();
+            //var result = new Result<Reservation>();
 
             if (reservation == null)
             {
