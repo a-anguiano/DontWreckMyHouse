@@ -65,6 +65,7 @@ namespace DontWreckMyHouse.UI
             Host host = GetHosts();
             if (host == null)
             {
+                view.DisplayInYellow("Host");
                 return;
             }
             view.DisplayHeader($"{host.LastName}: {host.City}, {host.State}");
@@ -81,12 +82,13 @@ namespace DontWreckMyHouse.UI
             Host host = GetHosts();
             if (host == null)
             {
+                view.DisplayInYellow("Host");
                 return;
             }
             Guest guest = GetGuest();
             if (guest == null)
             {
-                Console.WriteLine("Guest not found");
+                view.DisplayInYellow("Guest");
                 return;
             }
 
@@ -102,11 +104,6 @@ namespace DontWreckMyHouse.UI
             decimal total = reservationService.CalculateTotal(reservation);
             reservation.TotalCost = total;
             reservation = view.MakeSummary(reservation);
-
-            if (reservation == null)
-            {
-                return; //returns to main menu
-            }
 
             Result<Reservation> result = reservationService.Create(reservation);
             if (!result.Success)
@@ -127,13 +124,13 @@ namespace DontWreckMyHouse.UI
             Host host = GetHost();
             if (host == null)
             {
-                Console.WriteLine("Host not found.");
+                view.DisplayInYellow("Host");
                 return;
             }
             Guest guest = GetGuest();
             if (guest == null)
             {
-                Console.WriteLine("Guest not found");
+                view.DisplayInYellow("Guest");
                 return;
             }
             Console.WriteLine($"Guest Email: {guest.Email}");
@@ -171,10 +168,6 @@ namespace DontWreckMyHouse.UI
                 reservation.EndDate = reservation.EndDate;
             }
             Reservation editedRes = view.MakeSummary(reservation);
-            if (editedRes == null)
-            {
-                return; //returns to main menu
-            }
 
             Result<Reservation> result = reservationService.Edit(editedRes);
             if (!result.Success)
@@ -193,7 +186,17 @@ namespace DontWreckMyHouse.UI
             Reservation res = new Reservation();
             view.DisplayHeader(MainMenuOption.CancelAReservation.ToLabel());
             Host host = GetHost();
+            if (host == null)
+            {
+                view.DisplayInYellow("Host");
+                return;
+            }
             Guest guest = GetGuest();
+            if (guest == null)
+            {
+                view.DisplayInYellow("Guest");
+                return;
+            }
             Console.WriteLine($"Guest Email: {guest.Email}");
             Console.WriteLine($"Host Email: {host.Email}\n");
 
@@ -253,7 +256,7 @@ namespace DontWreckMyHouse.UI
         {
             List<Guest> guests = guestService.FindById(reservations); 
             
-            for(int i = 0; i<guests.Count; i++)
+            for(int i = 0; i< guests.Count; i++)
             {
                 reservations[i].Guest = guests[i];
             }

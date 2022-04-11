@@ -30,9 +30,9 @@ namespace DontWreckMyHouse.BLL
             return reservations.Where(r => r.Guest.Id == guest.Id).ToList();
         }
 
-        public Reservation GetReservationById(Reservation reservation)      //By host id
+        public Reservation GetReservationById(Reservation reservation)     
         {
-            List<Reservation> reservations = reservationRepo.FindByHostID(reservation.Host.Id); //HERE
+            List<Reservation> reservations = reservationRepo.FindByHostID(reservation.Host.Id); 
 
             var result = reservations.First(r => r.Id == reservation.Id);
             return result;
@@ -97,7 +97,7 @@ namespace DontWreckMyHouse.BLL
         private Result<Reservation> Validate(Reservation reservation) 
         {
             var result = new Result<Reservation>();
-            ValidateNulls(reservation, result); //Result<Reservation> result = 
+            ValidateNulls(reservation, result); 
             if (!result.Success)
             {
                 return result;
@@ -115,7 +115,7 @@ namespace DontWreckMyHouse.BLL
                 return result;
             }
             
-            ValidateNoOverlap(reservation, result); //except the one editing
+            ValidateNoOverlap(reservation, result); 
             return result;
         }
 
@@ -173,7 +173,6 @@ namespace DontWreckMyHouse.BLL
 
         private Result<Reservation> ValidateNulls(Reservation reservation, Result<Reservation> result)
         {
-            //var result = new Result<Reservation>();
 
             if (reservation == null)
             {
@@ -216,7 +215,7 @@ namespace DontWreckMyHouse.BLL
                 result.AddMessage("Guest does not exist.");
             }
 
-            if (hostRepo.FindByPhone(reservation.Host.Phone) == null)   //by id?
+            if (hostRepo.FindByPhone(reservation.Host.Phone) == null)   
             {
                 result.AddMessage("Host does not exist.");
             }

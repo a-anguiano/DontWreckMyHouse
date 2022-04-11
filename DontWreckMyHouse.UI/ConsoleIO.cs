@@ -38,7 +38,9 @@
                 {
                     return result;
                 }
+                Console.ForegroundColor = ConsoleColor.Red;
                 PrintLine(REQUIRED);
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -51,8 +53,9 @@
                 {
                     return result;
                 }
-
+                Console.ForegroundColor = ConsoleColor.Red;
                 PrintLine(INVALID_NUMBER);
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -65,7 +68,9 @@
                 {
                     return result;
                 }
+                Console.ForegroundColor = ConsoleColor.Red;
                 PrintLine(string.Format(NUMBER_OUT_OF_RANGE, min, max));
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -78,8 +83,9 @@
                 {
                     return result;
                 }
-
+                Console.ForegroundColor = ConsoleColor.Red;
                 PrintLine(INVALID_NUMBER);
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -92,7 +98,9 @@
                 {
                     return result;
                 }
+                Console.ForegroundColor = ConsoleColor.Red;
                 PrintLine(string.Format(NUMBER_OUT_OF_RANGE, min, max));
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -109,7 +117,9 @@
                 {
                     return false;
                 }
+                Console.ForegroundColor = ConsoleColor.Red;
                 PrintLine(INVALID_BOOL);
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -123,7 +133,9 @@
                 {
                     return result.Date;
                 }
+                Console.ForegroundColor = ConsoleColor.Red;
                 PrintLine(INVALID_DATE);
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
     }

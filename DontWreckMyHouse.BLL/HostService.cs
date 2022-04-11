@@ -15,13 +15,15 @@ namespace DontWreckMyHouse.BLL
         public List<Host> FindByState(string stateAbbr)
         {
             return repository.FindByState(stateAbbr)
-                .OrderBy(h => h.City).ToList();      //alphabetical for now
+                .OrderBy(h => h.City)
+                .ThenBy(h => h.StandardRate).ToList();
         }
 
         public List<Host> FindByCity(string stateAbbr, string city)
         {
             var hostsByState = repository.FindByState(stateAbbr);
-            var ret = hostsByState.Where(h => h.City == city).ToList();
+            var ret = hostsByState.Where(h => h.City == city)
+                .OrderBy(h => h.StandardRate).ToList();
             return ret;
         }
 

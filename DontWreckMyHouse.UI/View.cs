@@ -26,7 +26,7 @@ namespace DontWreckMyHouse.UI
                 max = Math.Max(max, i);
             }
 
-            string message = $"Select [{min}-{max}]: "; //?
+            string message = $"Select [{min}-{max}]: "; 
             return options[io.ReadInt(message, min, max)];
         }
 
@@ -65,7 +65,9 @@ namespace DontWreckMyHouse.UI
         {
             if (hosts == null || hosts.Count == 0)
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 io.PrintLine("No hosts found");
+                Console.ForegroundColor = ConsoleColor.White;
                 return null;
             }
 
@@ -75,8 +77,9 @@ namespace DontWreckMyHouse.UI
                 io.PrintLine($"ID: {index++}, City: {host.City}, Standard Rate: {host.StandardRate:c}, Weekend Rate: {host.WeekendRate:c}");
             }
             index--;
-
-            string message = $"Select a host by their index [0-{index}]: ";
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            string message = $"Select a host by their index [1-{index}]: ";
+            Console.ForegroundColor = ConsoleColor.White;
 
             index = io.ReadInt(message, 0, index);
             if (index <= 0)
@@ -114,21 +117,27 @@ namespace DontWreckMyHouse.UI
 
         public void EnterToContinue()
         {
+            Console.ForegroundColor = ConsoleColor.Cyan;
             io.ReadString("Press [Enter] to continue.");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         // display only
         public void DisplayHeader(string message)
         {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             io.PrintLine("");
             io.PrintLine(message);
             io.PrintLine(new string('=', message.Length));
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         public void DisplayException(Exception ex)
         {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             DisplayHeader("A critical error occurred:");
             io.PrintLine(ex.Message);
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         public void DisplayStatus(bool success, string message)
@@ -141,7 +150,9 @@ namespace DontWreckMyHouse.UI
             DisplayHeader(success ? "Success" : "Error");
             foreach (string message in messages)
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 io.PrintLine(message);
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -149,7 +160,9 @@ namespace DontWreckMyHouse.UI
         {
             if (reservations == null || reservations.Count == 0)
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 io.PrintLine("No reservations found.");
+                Console.ForegroundColor = ConsoleColor.White;
                 return;
             }
 
@@ -172,6 +185,13 @@ namespace DontWreckMyHouse.UI
                         reservation.StartDate,
                         reservation.EndDate,
                         reservation.TotalCost));
+        }
+
+        public void DisplayInYellow(string type)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            io.PrintLine($"{type} not found.");
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }
